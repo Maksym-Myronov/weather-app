@@ -1,0 +1,26 @@
+.form {
+
+    &__input {
+        width: 500px;
+        padding: 7px 10px;
+        outline: none;
+        display: flex;
+        align-items: center;
+        border-radius: 12px;
+    }
+
+    &__list {
+        position: absolute;
+        background: white;
+        padding: 10px 30px 20px 30px;
+        line-height: 30px;
+        border-radius: 12px;
+        z-index: 110;
+        width: 500px;
+    }
+
+    &__button {
+        cursor: pointer;
+        background: none;
+    }
+}
