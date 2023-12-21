@@ -1,0 +1,11 @@
+.data {
+    background: white;
+    border-radius: 12px;
+    height: 38px;
+
+    &__container {
+        padding: 7px 10px;
+        width: 200px;
+        text-align: center;
+    }
+}
