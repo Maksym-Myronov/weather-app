@@ -1,0 +1,21 @@
+.card {
+    background: black;
+    width: 220px;
+    border-radius: 12px;
+    height: 300px;
+
+    &__container {
+        display: flex;
+        justify-content: center;
+    }
+
+    &__btn {
+        cursor: pointer;
+        color: white;
+        background-color: rgba(255, 255, 255, 0.26);
+        width: 100px;
+        height: 100px;
+        border-radius: 100px;
+        margin-top: 95px;
+    }
+}
