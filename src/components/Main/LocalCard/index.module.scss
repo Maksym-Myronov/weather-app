@@ -1,0 +1,35 @@
+.local {
+    background: black;
+    width: 220px;
+    border-radius: 12px;
+    height: 300px;
+    color: white;
+
+    &__container {
+        display: flex;
+        justify-content: space-between;
+        padding: 20px 15px 5px 15px;
+    }
+
+    &__time {
+        color: rgba(255, 255, 255, 0.68);
+    }
+
+    &__images {
+        text-align: center;
+        margin-top: 25px;
+        margin-bottom: 25px;
+    }
+
+    &__temperature {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 15px 5px 15px;
+        color: rgba(255, 255, 255, 0.68);
+    }
+
+    p {
+        margin: 0;
+    }
+}
