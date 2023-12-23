@@ -1,4 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getTemperature, selectTemperatureData } from '../../../feathers/ip/temperatureSlice';
 //Images
 import snow from '../../../assets/img/Image.svg'
 //Styles
@@ -8,6 +10,37 @@ const LocalCard = () => {
     const [error, setError] = useState(null);
     const [data, setData] = useState([]);
     const [currentTime, setCurrentTime] = useState('');
+    const [lat, setLat] = useState(0)
+    const [lon, setLon] = useState(0)
+    const dispatch = useDispatch()
+    const options = useSelector(selectTemperatureData);
+
+    const onInputChange = useCallback(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch('http://ip-api.com/json/');
+                if (response.ok) {
+                    const newData = await response.json();
+                    setData(newData);
+                    setLat(newData.lat);
+                    setLon(newData.lon);
+                    dispatch(getTemperature({ lat: newData.lat, lon: newData.lon }));
+                } else if (response.status === 429) {
+                    setError('Слишком много запросов. Пожалуйста, повторите попытку позже.');
+                } else {
+                    setError('Что-то пошло не так при получении геопозиции из API!');
+                }
+            } catch (error) {
+                setError('Что-то пошло не так при получении геопозиции из API!');
+            }
+        };
+
+        fetchData();
+    }, [dispatch]);
+
+    useEffect(() => {
+        onInputChange();
+    }, [onInputChange]);
 
     useEffect(() => {
         const updateCurrentTime = () => {
@@ -33,7 +66,6 @@ const LocalCard = () => {
                     const newData = await response.json();
                     setData(newData);
                     console.log(newData);
-                    
                 } else if (response.status === 429) {
                     setError('Too many requests. Please try again later.');
                 } else {
@@ -43,9 +75,8 @@ const LocalCard = () => {
                 setError('Something went wrong getting Geolocation from API!');
             }
         };
-
         getUserLocationFromAPI();
-    }, []);
+    }, [lat, lon]);
 
     return (
         <div className={styles.local}>
@@ -55,11 +86,11 @@ const LocalCard = () => {
             </div>
             <div className={styles.local__images}>
                 <img src={snow} alt="snow" />
-                <p>Snow</p>
+                <p>{options.temp && options.temp.weather && options.temp.weather[0]?.main}</p>
             </div>
             <div className={styles.local__temperature}>
                 <p>AQI 70</p>
-                <p>-5° -0°</p>
+                <p>{options.temp.main?.feels_like}° {options.temp.main?.temp_min}°</p>
             </div>
         </div>
     )
