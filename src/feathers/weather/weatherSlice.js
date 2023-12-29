@@ -12,6 +12,7 @@ export const fetchCities = createAsyncThunk("fetchCities", async (value, rejectW
     try {
         const response = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${value.trim()}&limit=5&appid=${API_KEY}`);
         const data = await response.json()
+        console.log(data);
         return data
     } catch(error) {
         return rejectWithValue(error.message)

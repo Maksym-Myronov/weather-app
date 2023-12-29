@@ -19,16 +19,13 @@ const LocalCard = () => {
     const [lat, setLat] = useState(0)
     const [lon, setLon] = useState(0)
     const [celsiusMax, setCelsiusMax] = useState(0);
-    const [celsiusMin, setCelsiusMin] = useState(0);
     const dispatch = useDispatch()
     const options = useSelector(selectTemperatureData);
 
     useEffect(() => {
         if (options.temp && options.temp.main) {
             const tempMaxCelsius = Math.floor(Number(options.temp.main.temp_max) - 273.15);
-            const tempMinCelsius = Math.floor(Number(options.temp.main.temp_min) - 273.15);
             setCelsiusMax(tempMaxCelsius);
-            setCelsiusMin(tempMinCelsius);
         }
     }, [options.temp]); 
 
@@ -43,12 +40,12 @@ const LocalCard = () => {
                     setLon(newData.lon);
                     dispatch(getTemperature({ lat: newData.lat, lon: newData.lon }));
                 } else if (response.status === 429) {
-                    setError('Слишком много запросов. Пожалуйста, повторите попытку позже.');
+                    setError('Too many requests. Please try again later.');
                 } else {
-                    setError('Что-то пошло не так при получении геопозиции из API!');
+                    setError('Something went wrong while retrieving the geolocation from the API!');
                 }
             } catch (error) {
-                setError('Что-то пошло не так при получении геопозиции из API!');
+                setError('Something went wrong while retrieving the geolocation from the API!');
             }
         };
 
@@ -72,26 +69,6 @@ const LocalCard = () => {
 
         return () => clearInterval(intervalId);
     }, [currentTime]); 
-
-    useEffect(() => {
-        const getUserLocationFromAPI = async () => {
-            const apiUrl = 'http://ip-api.com/json/';
-            try {
-                const response = await fetch(`${apiUrl}`);
-                if (response.ok) {
-                    const newData = await response.json();
-                    setData(newData);
-                } else if (response.status === 429) {
-                    setError('Too many requests. Please try again later.');
-                } else {
-                    setError('Something went wrong getting Geolocation from API!');
-                }
-            } catch (error) {
-                setError('Something went wrong getting Geolocation from API!');
-            }
-        };
-        getUserLocationFromAPI();
-    }, []);
 
     const renderWeatherImage = (weatherCondition) => {
         let imageSource;
@@ -134,7 +111,7 @@ const LocalCard = () => {
             </div>
             <div className={styles.local__temperature}>
                 <p>AQI 70</p>
-                <p> {celsiusMax} ° / {celsiusMin} °</p>
+                <p> {celsiusMax} ℃</p>
             </div>
         </div>
     )
