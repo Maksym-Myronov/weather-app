@@ -1,0 +1,41 @@
+.widget {
+    background: #1D2837;
+    width: 470px;
+    height: 240px;
+    border-radius: 25px;
+    margin-top: 30px;
+    color: white;
+    padding: 20px;
+
+    &__local {
+        display: block;
+    }
+
+    &__citys {
+        display: flex;
+        gap: 35px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        padding: 0px 0px 10px 0px;
+    }
+
+    &__card {
+        display: flex;
+        width: 900px;
+    }
+
+    &__info {
+        color: white;
+        display: inline-block;
+        text-align: center;
+        margin: 10px 10px 10px 0px;
+    }
+
+    p {
+        margin: 0;
+    }
+
+    &__city {
+        cursor: pointer;
+    }
+    
+}

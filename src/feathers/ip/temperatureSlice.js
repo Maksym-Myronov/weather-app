@@ -14,7 +14,7 @@ export const getTemperature = createAsyncThunk("getTemperature", async ({ lat, l
     try {
         const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}`);
         const data = await response.json()
-        console.log(data);
+        // console.log(data);
         return { lat, lon, temp: data };
     } catch(error) {
         return rejectWithValue(error.message)
