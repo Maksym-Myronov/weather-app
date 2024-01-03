@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import {selectTemperatureData} from '../../../feathers/ip/temperatureSlice'
+import Slider from 'react-slick'
 //Images
 import sun from '../../../assets/img/01_sunny_color.svg'
 import snow from '../../../assets/img/Image.svg'
@@ -11,6 +12,8 @@ import heavyRain from '../../../assets/img/14_thunderstorm_color (1).svg'
 import partlyCloudy from '../../../assets/img/35_partly_cloudy_daytime_color.svg'
 //Styles
 import styles from './index.module.scss'
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 const WidgetLocalCard = () => {
 
@@ -80,7 +83,7 @@ const WidgetLocalCard = () => {
                 break;
         }
 
-        return <img src={imageSource} alt={weatherCondition} />;
+        return <img src={imageSource} alt={weatherCondition} className={styles.widget__images} />;
     };
     
     return (
@@ -90,19 +93,23 @@ const WidgetLocalCard = () => {
                     <p className={styles.widget__city}>{options.temp.name}</p>
                 </div>
                 <div className={styles.widget__card}>
-                    {Array.isArray(forecast) && forecast.map((dayForecast, index) => (
-                        <div className={styles.widget__info} key={index}>
-                            <p>{index === 0 ? `Today (${currentDay[index]})` : `${currentDay[index]}`}</p>
-                            <p>{currentMonthName} {daysOfMonth[index]}</p>
-                            {renderWeatherImage(dayForecast[0].weather[0].main)}
-                            <p>{dayForecast[0].weather[0].main}</p>
-                            <p>{index === 0 ? Math.floor(Number(dayForecast[0].main.temp_max) - 273.15) : Math.floor(Number(dayForecast[4].main.temp_max) - 273.15)}℃</p>
-                        </div>
-                    ))}
+                    <Slider className={styles.slider} dots slidesToShow={3} slidesToScroll={2}>
+                        {Array.isArray(forecast) &&
+                            forecast.map((dayForecast, index) => (
+                                <div className={styles.widget__info} key={index}>
+                                    <p>{index === 0 ? `Today (${currentDay[index]})` : `${currentDay[index]}`}</p>
+                                    <p>{currentMonthName} {daysOfMonth[index]}</p>
+                                    {renderWeatherImage(dayForecast[0].weather[0].main)}
+                                    <p>{dayForecast[0].weather[0].main}</p>
+                                    <p>{index === 0 ? Math.floor(Number(dayForecast[0].main.temp_max) - 273.15) : Math.floor(Number(dayForecast[0].main.temp_max) - 273.15)}℃</p>
+                                </div>
+                            ))}
+                    </Slider>
                 </div>
             </div>
         </div>
-    );
+    ); 
+
 }
 
 export default WidgetLocalCard
