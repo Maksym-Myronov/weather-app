@@ -1,5 +1,5 @@
-//Styles
 import WidgetLocalCard from './WidgetLocalCard'
+//Styles
 import styles from './index.module.scss'
 
 const Footer = () => {

@@ -6,7 +6,7 @@ const Data = () => {
     const currentYear = data.getFullYear();
     const currentData = data.getDate()
     const currentMonth = data.getMonth()
-    const allDate = `${currentData < 10 ? '0' + currentData : currentData}.${currentMonth + 1}.${currentYear} `
+    const allDate = `${currentData < 10 ? '0' + currentData : currentData}.${currentMonth  < 10 ? '0' + (currentMonth + 1)  : currentMonth + 1}.${currentYear} `
 
     return (
         <div className={styles.data}>
