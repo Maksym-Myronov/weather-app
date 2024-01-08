@@ -14,6 +14,7 @@ import partlyCloudy from '../../../assets/img/35_partly_cloudy_daytime_color.svg
 import styles from './index.module.scss'
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import WidgetAllCard from '../WidgetAllCard'
 
 const WidgetLocalCard = () => {
 
@@ -85,6 +86,9 @@ const WidgetLocalCard = () => {
 
         return <img src={imageSource} alt={weatherCondition} className={styles.widget__images} />;
     };
+
+    console.log();
+    // console.log(forecast ? forecast[0].weather?.dt_txt : 'Forecast is null');
     
     return (
         <div className={styles.widget}>
@@ -106,6 +110,9 @@ const WidgetLocalCard = () => {
                             ))}
                     </Slider>
                 </div>
+            </div>
+            <div>
+                <WidgetAllCard forecast={forecast} />
             </div>
         </div>
     ); 

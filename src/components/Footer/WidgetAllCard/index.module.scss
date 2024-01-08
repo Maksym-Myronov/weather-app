@@ -1,0 +1,44 @@
+.chart {
+    background: #1D2837;
+    width: 670px;
+    height: 240px;
+    border-radius: 25px;
+    color: white;
+    padding: 20px;
+
+    &__cityies {
+        display: flex;
+        gap: 35px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        padding: 0px 0px 10px 0px;
+    }
+    
+    &__city {
+        cursor: pointer;
+    }
+
+    &__info {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    &__speed {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+        font-size: 0.8rem;
+    }
+
+    &__date {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+    }
+
+    &__fullDate {
+        padding: 5px;
+        text-align: center;
+    }
+
+}
