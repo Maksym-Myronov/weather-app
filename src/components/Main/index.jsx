@@ -7,8 +7,8 @@ import styles from './index.module.scss'
 const Main = () => {
     return (
         <div className={styles.main}>
-            <Card />
             <LocalCard />
+            <Card />
         </div>
     )
 }

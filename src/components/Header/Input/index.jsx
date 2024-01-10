@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCities } from "../../../feathers/weather/weatherSlice";
+import { getCity } from "../../../feathers/cityCard/cardSlice";
 
 //Styles
 import styles from './index.module.scss';
@@ -8,20 +9,27 @@ import styles from './index.module.scss';
 const Input = () => {
     const dispatch = useDispatch();
     const [term, setTerm] = useState('');
+    const [selectedLocation, setSelectedLocation] = useState(null);
 
     const options = useSelector((state) => state.weather.cities);
 
     const onInputChange = (e) => {
-        const value = e.target.value.trimStart();
+        e.preventDefault()
+        const value =  (e.target.value || '').trimStart();
         setTerm(value);
         if (value === '') return;
-
         dispatch(fetchCities(value));
     };
 
+    useEffect(() => {
+        if (selectedLocation) {
+            dispatch(getCity({lat: selectedLocation.lat, lon: selectedLocation.lon}));
+        }
+    }, [selectedLocation, dispatch]);
+
     return (
         <div>
-            <form className={styles.form}>
+            <form className={styles.form} onSubmit={onInputChange}>
                 <input 
                     type="text" 
                     placeholder="Search in the city.."
@@ -33,7 +41,7 @@ const Input = () => {
                     <ul className={styles.form__list}>
                         {options.map((option, index) => (
                             <li key={option.name + '-' + index} className={styles.form__autocomplete}>
-                                <button className={styles.form__button}>{option.name}, {option.country}</button>
+                                <button className={styles.form__button} onClick={() => setSelectedLocation({ lat: option.lat, lon: option.lon })}>{option.name}, {option.country}</button>
                             </li>
                         ))}
                     </ul>
