@@ -1,9 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
+const initialSavedOptions = JSON.parse(localStorage.getItem('savedOptions')) || [];
+
 const initialState = {
     lat: 0,
     lon: 0,
-    temp: [],
+    temp: Array.isArray(initialSavedOptions) ? initialSavedOptions : [],
     status: 'idle',
     error: null
 }
@@ -13,15 +15,14 @@ const API_KEY = import.meta.env.VITE_WEATHER_APP_KEY;
 export const getCity = createAsyncThunk("getCity", async ({ lat, lon }, { rejectWithValue }) => {
     try {
         const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}`);
-        const data = await response.json()
-        // console.log(data);
-        return {temp: data}
-    } catch(error) {
-        return rejectWithValue(error.message)
+        const data = await response.json();
+        return {temp: data};
+    } catch (error) {
+        return rejectWithValue(error.message);
     }
 });
 
-export const cardSlice = createSlice({
+const cardSlice = createSlice({
     name: "card",
     initialState,
     reducers: {},
@@ -37,6 +38,7 @@ export const cardSlice = createSlice({
                 } else {
                     state.temp = [...state.temp, action.payload.temp];
                 }
+                localStorage.setItem('savedOptions', JSON.stringify(state.temp));
             })
             .addCase(getCity.rejected, (state, action) => {
                 state.status = 'failed';
