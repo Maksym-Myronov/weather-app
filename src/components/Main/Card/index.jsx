@@ -11,11 +11,24 @@ import partlyCloudy from '../../../assets/img/35_partly_cloudy_daytime_color.svg
 //Styles
 import styles from './index.module.scss'
 
-
 const Card = () => {
 
     const options = useSelector((state) => state.card.temp)
     const [currentTime, setCurrentTime] = useState('');
+
+    useEffect(() => {
+        const updateCurrentTime = () => {
+            const date = new Date();
+            const hours = date.getHours();
+            const minutes = date.getMinutes();
+            const formattedTime = `${hours}:${minutes < 10 ? '0' : ''}${minutes}`;
+            setCurrentTime(formattedTime);
+        };
+
+        const intervalId = setInterval(updateCurrentTime, 0);
+
+        return () => clearInterval(intervalId);
+    }, [currentTime, options]);
 
     const renderWeatherImage = (weatherCondition) => {
         let imageSource;
@@ -45,20 +58,6 @@ const Card = () => {
 
         return <img src={imageSource} alt={weatherCondition} className={styles.local__card} />;
     };
-
-    useEffect(() => {
-        const updateCurrentTime = () => {
-            const date = new Date();
-            const hours = date.getHours();
-            const minutes = date.getMinutes();
-            const formattedTime = `${hours}:${minutes < 10 ? '0' : ''}${minutes}`;
-            setCurrentTime(formattedTime);
-        };
-
-        const intervalId = setInterval(updateCurrentTime, 0);
-
-        return () => clearInterval(intervalId);
-    }, [currentTime]); 
 
     return (
         <div className={styles.allCard}>
