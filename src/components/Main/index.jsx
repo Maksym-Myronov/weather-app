@@ -1,3 +1,4 @@
+import WidgetLocalCard from '../Footer/WidgetLocalCard'
 import Card from "./Card"
 import LocalCard from "./LocalCard"
 
@@ -7,7 +8,10 @@ import styles from './index.module.scss'
 const Main = () => {
     return (
         <div className={styles.main}>
-            <LocalCard />
+            <div className={styles.main__cardsContainer}>
+                <LocalCard />
+                <WidgetLocalCard  />
+            </div>
             <Card />
         </div>
     )
