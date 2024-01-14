@@ -8,7 +8,6 @@ import styles from './index.module.scss';
 
 const WidgetAllCard = ({ forecast }) => {
     const options = useSelector(selectTemperatureData);
-    const fullDate = forecast && forecast[0][0].dt_txt.slice(0, 10);
     const [speed, setSpeed] = useState(null);
     const [storedForecast, setStoredForecast] = useState(null);
     const [dataTime, setDataTime] = useState(null)
@@ -76,7 +75,6 @@ const WidgetAllCard = ({ forecast }) => {
             const dataSlice = date.slice(0, 8);
             const newDate = dataSlice.map((item) => item.slice(10, 16))
             setDataTime(newDate)
-            // console.log(newDate);
         }
     }, [forecast]);
 
@@ -85,7 +83,6 @@ const WidgetAllCard = ({ forecast }) => {
         <div className={styles.chart__cityies}>
             <p className={styles.chart__city}>{options.temp.name}</p>
         </div>
-        {/* <p className={styles.chart__fullDate}>{fullDate}</p> */}
         <div className={styles.chart__widget}>
             <div><LineChart
                 width={600}
