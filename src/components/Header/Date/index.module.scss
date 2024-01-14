@@ -1,11 +1,26 @@
 .data {
-    background: white;
-    border-radius: 12px;
-    height: 38px;
+    display: flex;
+    justify-content: space-between;
+    // padding: ;
+    color: white;
 
-    &__container {
-        padding: 7px 10px;
-        width: 200px;
-        text-align: center;
+    &__link {
+        display: flex;
+        gap: 35px;
+        margin-right: 120px;
+    }
+
+    &__local {
+        display: flex;
+        align-items: center;
+    }
+
+    &__images {
+        width: 17px;
+        height: 15px;
+    }
+
+    &__city {
+        margin-right: 10px
     }
 }

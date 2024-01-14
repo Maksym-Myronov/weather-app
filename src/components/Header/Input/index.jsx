@@ -2,7 +2,9 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCities } from "../../../feathers/weather/weatherSlice";
 import { getCity } from "../../../feathers/cityCard/cardSlice";
-
+//Images
+import reactIcon from '../../../assets/img/Integration icons.svg'
+import search from '../../../assets/img/search.svg'
 //Styles
 import styles from './index.module.scss';
 
@@ -28,15 +30,22 @@ const Input = () => {
     }, [selectedLocation, dispatch]);
 
     return (
-        <div>
-            <form className={styles.form} onSubmit={onInputChange}>
-                <input 
-                    type="text" 
-                    placeholder="Search in the city.."
-                    value={term}
-                    onChange={onInputChange}
-                    className={styles.form__input}
-                />
+        <div className={styles.form}>
+            <div className={styles.form__logo}>
+                <img src={reactIcon} alt="reactIcon" className={styles.form__react} />
+                <h1 className={styles.form__text}>Maksym Weather App</h1>
+            </div>
+            <form className={styles.form__forms} onSubmit={onInputChange}>
+                <div className={styles.form__searchInupt}> 
+                    <img src={search} alt="search" className={styles.form__search} />
+                    <input 
+                        type="text" 
+                        placeholder="Enter locations"
+                        value={term}
+                        onChange={onInputChange}
+                        className={styles.form__input}
+                    />
+                </div>
                 {term ? 
                     <ul className={styles.form__list}>
                         {options.map((option, index) => (
@@ -47,6 +56,9 @@ const Input = () => {
                     </ul>
                 : null}
             </form>
+            <div>
+                <button className={styles.form__btn}>Search</button>
+            </div>
         </div>
     );
 };
