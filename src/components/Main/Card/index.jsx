@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { removeCity, removeAllCity } from '../../../feathers/cityCard/cardSlice'
 //Images
@@ -9,12 +10,48 @@ import drizzle from '../../../assets/img/09_light_rain_color.svg'
 import heavyRain from '../../../assets/img/14_thunderstorm_color (1).svg'
 import partlyCloudy from '../../../assets/img/35_partly_cloudy_daytime_color.svg'
 import location from '../../../assets/img/placeholder (1) 1.svg'
+import paginationOne from '../../../assets/img/First.svg'
+import paginationTwo from '../../../assets/img/Prev.svg'
+import paginationThree from '../../../assets/img/Next.svg'
+import paginationFour from '../../../assets/img/Last.svg'
 //Styles
 import styles from './index.module.scss'
 
 const Card = () => {
 
     const options = useSelector((state) => state.card.temp)
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 4;
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const currentItems = options.slice(startIndex, endIndex);
+    const totalPages = Math.ceil(options.length / itemsPerPage);
+
+    const handlePreviousPage = () => {
+        if (currentPage > 1) {
+            setCurrentPage(currentPage - 1);
+        }
+    };
+
+    const handleFirstPage = () => {
+        if (currentPage > 1) {
+            setCurrentPage(Math.max(1, currentPage - 10));
+        } 
+    };
+    
+    const handleNextPage = () => {
+        if (currentPage < totalPages) {
+            setCurrentPage(currentPage + 1);
+        }
+    };
+
+    const handleLastPage = () => {
+        if (currentPage === 1) {
+            setCurrentPage(Math.min(totalPages, currentPage + 9));
+        } else if (currentPage < totalPages) {
+            setCurrentPage(Math.min(totalPages, currentPage + 10));
+        }
+    };
 
     const dispatch = useDispatch()
 
@@ -71,7 +108,7 @@ const Card = () => {
                     <h1 className={styles.allCards__recent}>Recent</h1>
                     <button className={styles.allCards__btn} onClick={() => removeAllLocalStorageData(options.id)}>Cear All</button>
                 </div>
-                {Array.isArray(options) && options.slice(0, 4).map((item) => (
+                {Array.isArray(currentItems) && currentItems.slice(0, 4).map((item) => (
                     <div className={styles.local} key={item.id}>
                         <div className={styles.local__container}>
                             <p className={styles.local__temp}>{Math.floor(item && item.main && item.main.temp) - 273}<span className={styles.local__span}>°</span></p>
@@ -91,8 +128,27 @@ const Card = () => {
                         </div>
                     </div>
                 ))}
+                <div className={styles.pagination}>
+                    <div className={styles.pagination__container}>
+                        <button className={styles.pagination__btn} onClick={handleFirstPage}><img src={paginationOne} alt="paginationFirst" /></button>
+                        <button className={styles.pagination__btn} onClick={handlePreviousPage}><img src={paginationTwo} alt="paginationTwo" /></button>
+                        <div className={styles.pagination__block}>
+                            {[...Array(totalPages)].map((_, index) => (
+                                <button
+                                    key={index}
+                                    className={`${styles.pagination__number} ${currentPage === index + 1 ? styles.active : ''}`}
+                                    onClick={() => setCurrentPage(index + 1)}
+                                >
+                                    {index + 1}
+                                </button>
+                            ))}
+                        </div>
+                        <button className={styles.pagination__btn} onClick={handleNextPage}><img src={paginationThree} alt="paginationThree" /></button>
+                        <button className={styles.pagination__btn} onClick={handleLastPage}><img src={paginationFour} alt="paginationFour" /></button>
+                    </div>
+                </div>
             </div> 
-        : 
+            : 
             <div className={styles.allCard}>
                 <div className={styles.allCards}>
                     <h1 className={styles.allCards__recent}>Recent</h1>
