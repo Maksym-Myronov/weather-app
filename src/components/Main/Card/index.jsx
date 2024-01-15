@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux'
-import { removeCity } from '../../../feathers/cityCard/cardSlice'
+import { removeCity, removeAllCity } from '../../../feathers/cityCard/cardSlice'
 //Images
 import snow from '../../../assets/img/Image.svg'
 import cloud from '../../../assets/img/06_cloudy_color.svg'
@@ -52,6 +52,10 @@ const Card = () => {
         dispatch(removeCity(idRemove))
     }
 
+    const removeAllLocalStorageData = () => {
+        dispatch(removeAllCity())
+    }
+
     const monthInAYear = new Date().getMonth();
     const MONTH_YEAR = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     const WEEK_DAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
@@ -65,7 +69,7 @@ const Card = () => {
             <div className={styles.allCard}>
                 <div className={styles.allCards}>
                     <h1 className={styles.allCards__recent}>Recent</h1>
-                    <button className={styles.allCards__btn}>Cear All</button>
+                    <button className={styles.allCards__btn} onClick={() => removeAllLocalStorageData(options.id)}>Cear All</button>
                 </div>
                 {Array.isArray(options) && options.slice(0, 4).map((item) => (
                     <div className={styles.local} key={item.id}>
@@ -78,7 +82,7 @@ const Card = () => {
                                 <p>{currentDay}, {currentDayOfMonth} {currentMonthName}</p>
                                 <div className={styles.local__location}>
                                     <img src={location} alt="location" />
-                                    <h1>{item && item.name ? item.name : "Loading..."}</h1>
+                                    <h1>{item && item.name && item.sys ? `${item.name}, ${item.sys.country}` : "Loading..."}</h1>
                                 </div>
                             </div>
                             <div className={styles.local__images}>

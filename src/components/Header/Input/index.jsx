@@ -29,6 +29,13 @@ const Input = () => {
         }
     }, [selectedLocation, dispatch]);
 
+    const handleButtonClick = () => {
+        if(options.length > 0) {
+            setSelectedLocation({lat: options[0].lat, lon: options[0].lon})
+            setTerm('')
+        }
+    }
+
     return (
         <div className={styles.form}>
             <div className={styles.form__logo}>
@@ -57,7 +64,7 @@ const Input = () => {
                 : null}
             </form>
             <div>
-                <button className={styles.form__btn}>Search</button>
+                <button className={styles.form__btn} onClick={handleButtonClick}>Search</button>
             </div>
         </div>
     );

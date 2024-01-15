@@ -1,9 +1,12 @@
 //Images
+import { useSelector } from 'react-redux'
 import heart from '../../../assets/img/Icon.svg'
 //Styles
 import styles from './index.module.scss'
 
 const Data = () => {
+
+    const options = useSelector((state) => state.temperature.temp)
 
     return (
         <div className={styles.data}>
@@ -12,7 +15,7 @@ const Data = () => {
                 <a href="#">Recent</a>
             </div>
             <div className={styles.data__local}>
-                <p className={styles.data__city}>Kyiv, Ukraine</p>
+                <p className={styles.data__city}>{options.name}, {options.sys && options.sys.country}</p>
                 <img src={heart} alt="heart" className={styles.data__images}/>
             </div>
         </div>
