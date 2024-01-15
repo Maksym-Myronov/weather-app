@@ -30,6 +30,10 @@ const cardSlice = createSlice({
             const idRemove = action.payload
             state.temp = state.temp.filter((item) => item.id !== idRemove)
             localStorage.setItem('savedOptions', JSON.stringify(state.temp))
+        },
+        removeAllCity: (state) => {
+            state.temp = []
+            localStorage.removeItem('savedOptions');
         }
     },
     extraReducers: (builder) => {
@@ -55,4 +59,4 @@ const cardSlice = createSlice({
 
 export default cardSlice.reducer;
 export const selectCityData = (state) => state.card;
-export const { removeCity } = cardSlice.actions
+export const { removeCity, removeAllCity } = cardSlice.actions
