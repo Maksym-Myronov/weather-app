@@ -1,4 +1,4 @@
-import WidgetLocalCard from '../Footer/WidgetLocalCard'
+import WidgetLocalCard from '../Main/WidgetLocalCard'
 import Card from "./Card"
 import LocalCard from "./LocalCard"
 

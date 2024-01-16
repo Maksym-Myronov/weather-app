@@ -1,16 +1,22 @@
 .chart {
-    background: #1D2837;
-    width: 670px;
-    height: 240px;
     border-radius: 25px;
     color: white;
-    padding: 20px;
+    padding: 20px 0px;
 
     &__cityies {
         display: flex;
         gap: 35px;
         border-bottom: 1px solid rgba(255, 255, 255, 0.08);
         padding: 0px 0px 10px 0px;
+    }
+
+    &__widget {
+        height: 380px;
+        width: 900px;
+        background: #F3F3F3;
+        border-radius: 16px;
+        display: inline-block;
+        align-items: center;
     }
     
     &__city {
@@ -23,11 +29,12 @@
         align-items: center;
     }
 
-    &__speed {
+    &__day {
         display: flex;
-        gap: 20px;
-        align-items: center;
-        font-size: 0.8rem;
+        justify-content: space-between;
+        margin: 30px;
+        color: black;
+        font-weight: 600;
     }
 
     &__date {
