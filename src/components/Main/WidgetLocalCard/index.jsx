@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import {selectTemperatureData} from '../../../feathers/ip/temperatureSlice'
-import Slider from 'react-slick'
 //Images
 import sun from '../../../assets/img/01_sunny_color.svg'
 import snow from '../../../assets/img/Image.svg'
@@ -47,16 +46,9 @@ const WidgetLocalCard = () => {
     
     }, [options.lat, options.lon, options]);
 
-    const MONTH_YEAR = ["February", "Marc", "April", "May", "June", "July", "August", "September", "October", "November", "December", "January" ]
-    const WEEK_DAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
-    const monthInAYear = new Date().getMonth()
+    const WEEK_DAYS = ["Sun", "Mon", "Tue", "Wed", "Tur", "Fri", "Sat"]
     const dayInAWeek = new Date().getDay()
-    const currentDayOfMonth = new Date().getDate();
-    const currentMonth = MONTH_YEAR.slice(monthInAYear, MONTH_YEAR.length).concat(MONTH_YEAR.slice(0, monthInAYear))
     const currentDay = WEEK_DAYS.slice(dayInAWeek, WEEK_DAYS.length).concat(WEEK_DAYS.slice(0, dayInAWeek))
-    const currentMonthName = currentMonth[new Date().getMonth()];
-    const daysInMonth = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate();
-    const daysOfMonth = Array.from({ length: daysInMonth }, (_, i) => (currentDayOfMonth + i) % daysInMonth || daysInMonth);
 
     const renderWeatherImage = (weatherCondition) => {
         let imageSource;
@@ -84,32 +76,28 @@ const WidgetLocalCard = () => {
                 break;
         }
 
-        return <img src={imageSource} alt={weatherCondition} className={styles.widget__images} />;
+        return <img src={imageSource} alt={weatherCondition} className={styles.widget__images} style={{ width: '36px', height: '36px' }} />;
     };
     
     return (
         <div className={styles.widget}>
-            <div className={styles.widget__local}>
-                <div className={styles.widget__citys}>
-                    <p className={styles.widget__city}>{options.temp.name}</p>
-                </div>
-                <div className={styles.widget__card}>
-                    <Slider className={styles.slider} dots slidesToShow={3} slidesToScroll={2}>
-                        {Array.isArray(forecast) &&
-                            forecast.map((dayForecast, index) => (
-                                <div className={styles.widget__info} key={index}>
-                                    <p>{index === 0 ? `Today (${currentDay[index]})` : `${currentDay[index]}`}</p>
-                                    <p>{currentMonthName} {daysOfMonth[index]}</p>
-                                    {renderWeatherImage(dayForecast[0].weather[0].main)}
-                                    <p>{dayForecast[0].weather[0].main}</p>
-                                    <p>{index === 0 ? Math.floor(Number(dayForecast[0].main.temp_max) - 273.15) : Math.floor(Number(dayForecast[0].main.temp_max) - 273.15)}℃</p>
-                                </div>
-                            ))}
-                    </Slider>
-                </div>
-            </div>
             <div>
                 <WidgetAllCard forecast={forecast} />
+            </div>
+            <div className={styles.widget__local}>
+                <div className={styles.widget__card}>
+                    {Array.isArray(forecast) &&
+                        forecast.map((dayForecast, index) => (
+                            <div className={styles.widget__info} key={index}>
+                                <p className={styles.widget__day}>{index === 0 ? "Today" : `${currentDay[index]}`}</p>
+                                {renderWeatherImage(dayForecast[0].weather[0].main)}
+                                <div className={styles.widget__temp}>
+                                    <p className={styles.widget__max}>{index === 0 ? Math.floor(Number(dayForecast[0].main.temp_max) - 273.15) : Math.floor(Number(dayForecast[0].main.temp_max) - 273.15)}°</p>
+                                    <p className={styles.widget__min}>{index === 0 ? Math.floor(Number(dayForecast.at(-1).main.temp_min) - 273.15) : Math.floor(Number(dayForecast.at(-1).main.temp_min) - 273.15)}°</p>
+                                </div>
+                            </div>
+                        ))}
+                </div>
             </div>
         </div>
     ); 

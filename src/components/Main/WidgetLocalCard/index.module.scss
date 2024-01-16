@@ -1,0 +1,70 @@
+.widget {
+    border-radius: 25px;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 0px;
+    height: 500px;
+    margin-top: 30px;
+
+    &__local {
+        display: inline-block;
+    }
+
+    &__citys {
+        display: flex;
+        gap: 35px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        padding: 0px 0px 10px 0px;
+    }
+
+    &__card {
+        display: inline-block;
+        width: 300px;
+        height: 380px;
+        background: white;
+        border-radius: 16px;
+        padding: 15px 10px 15px 25px;
+        line-height: 45px;
+        margin: 20px;
+        margin-left: 60px;
+    }
+
+    &__info {
+        color: black;
+        display: flex;
+        text-align: center;
+        align-items: center;
+        justify-content: space-between;
+        margin: 10px 10px 10px 0px;
+    }
+
+    p {
+        margin: 0;
+    }
+
+    &__city {
+        cursor: pointer;
+    }
+
+    &__day {
+        text-align: left;
+        width: 50px;
+    }
+
+    &__temp {
+        width: 60px;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    &__max {
+        width: 30px;
+        text-align: right;
+    }
+
+    &__min {
+        color: rgba(0, 0, 0, 0.68);
+    }
+
+}
