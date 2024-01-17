@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import {selectTemperatureData} from '../../../feathers/ip/temperatureSlice'
+import {selectTemperatureData} from '../../../reducers/ip/temperatureSlice'
 //Images
 import sun from '../../../assets/img/01_sunny_color.svg'
 import snow from '../../../assets/img/Image.svg'

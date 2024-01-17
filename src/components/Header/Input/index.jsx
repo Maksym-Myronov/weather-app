@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchCities } from "../../../feathers/weather/weatherSlice";
-import { getCity } from "../../../feathers/cityCard/cardSlice";
+import { fetchCities } from "../../../reducers/weather/weatherSlice";
+import { getCity } from "../../../reducers/cityCard/cardSlice";
 //Images
 import reactIcon from '../../../assets/img/Integration icons.svg'
 import search from '../../../assets/img/search.svg'
