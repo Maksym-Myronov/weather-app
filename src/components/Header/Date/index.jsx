@@ -1,5 +1,5 @@
-//Images
 import { useSelector } from 'react-redux'
+//Images
 import heart from '../../../assets/img/Icon.svg'
 //Styles
 import styles from './index.module.scss'

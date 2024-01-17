@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { removeCity, removeAllCity } from '../../../feathers/cityCard/cardSlice'
+import { removeCity, removeAllCity } from '../../../reducers/cityCard/cardSlice'
 //Images
 import snow from '../../../assets/img/Image.svg'
 import cloud from '../../../assets/img/06_cloudy_color.svg'

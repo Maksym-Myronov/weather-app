@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getTemperature, selectTemperatureData } from '../../../feathers/ip/temperatureSlice';
+import { getTemperature, selectTemperatureData } from '../../../reducers/ip/temperatureSlice';
 //Images
 import snow from '../../../assets/img/Image.svg'
 import cloud from '../../../assets/img/06_cloudy_color.svg'

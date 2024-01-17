@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
-import weatherReducer from '../feathers/weather/weatherSlice'
-import temperatureReducer from "../feathers/ip/temperatureSlice";
-import cardReducer from '../feathers/cityCard/cardSlice'
+import weatherReducer from '../reducers/weather/weatherSlice'
+import temperatureReducer from "../reducers/ip/temperatureSlice";
+import cardReducer from '../reducers/cityCard/cardSlice'
 
 export const store = configureStore({
     reducer: {
