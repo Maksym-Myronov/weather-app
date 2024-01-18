@@ -1,11 +1,14 @@
 .window {
-    width: 100%;
+    width: 100vw;
     height: 100vh;
+    position: fixed;
     display: flex;
     justify-content: center;
-    align-items: center;
-    text-align: center;
-    background-color: rgb(0, 0, 0, 0.4);
+    top: 0;
+    left: 0;
+    padding-top: 140px;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 100;
 
     &__container {
         background: #242323;
@@ -17,7 +20,12 @@
     }
 
     &__text {
-        margin-top: 250px;
+        margin-top: 200px;
+    }
+
+    &__warning {
+        color: red;
+        margin-bottom: 20px;
     }
 
     &__btnFirst {

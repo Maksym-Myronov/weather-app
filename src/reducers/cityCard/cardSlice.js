@@ -43,12 +43,11 @@ const cardSlice = createSlice({
             })
             .addCase(getCity.fulfilled, (state, action) => {
                 state.status = 'succeeded';
-                if (Array.isArray(action.payload.temp)) {
-                    state.temp = action.payload.temp;
-                } else {
-                    state.temp = [...state.temp, action.payload.temp];
+                const newCity = action.payload.temp;
+                if (!state.temp.some(city => city.id === newCity.id)) {
+                    state.temp = [...state.temp, newCity];
+                    localStorage.setItem('savedOptions', JSON.stringify(state.temp));
                 }
-                localStorage.setItem('savedOptions', JSON.stringify(state.temp));
             })
             .addCase(getCity.rejected, (state, action) => {
                 state.status = 'failed';
