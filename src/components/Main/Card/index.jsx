@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { removeCity, removeAllCity } from '../../../reducers/cityCard/cardSlice'
+import ModalWindow from '../../../shared/components/ModalWindow'
 //Images
 import snow from '../../../assets/img/Image.svg'
 import cloud from '../../../assets/img/06_cloudy_color.svg'
@@ -19,13 +20,18 @@ import styles from './index.module.scss'
 
 const Card = () => {
 
-    const options = useSelector((state) => state.card.temp)
+    const [isActive, setIsActive] = useState(false)
     const [currentPage, setCurrentPage] = useState(1);
+    const options = useSelector((state) => state.card.temp)
     const itemsPerPage = 4;
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
     const currentItems = options.slice(startIndex, endIndex);
     const totalPages = Math.ceil(options.length / itemsPerPage);
+
+    const handleChangeState = () => {
+        setIsActive(!isActive)
+    }
 
     const handlePreviousPage = () => {
         if (currentPage > 1) {
@@ -90,7 +96,8 @@ const Card = () => {
     }
 
     const removeAllLocalStorageData = () => {
-        dispatch(removeAllCity())
+        dispatch(removeAllCity(options.id))
+        setIsActive(!isActive)
     }
 
     const monthInAYear = new Date().getMonth();
@@ -106,7 +113,15 @@ const Card = () => {
             <div className={styles.allCard}>
                 <div className={styles.allCards}>
                     <h1 className={styles.allCards__recent}>Recent</h1>
-                    <button className={styles.allCards__btn} onClick={() => removeAllLocalStorageData(options.id)}>Cear All</button>
+                    <button className={styles.allCards__btn} onClick={handleChangeState}>Cear All</button>
+                    {isActive && <ModalWindow 
+                        text="Are you sure you want to remove all cities from the recent list?"
+                        warning="Warning"
+                        cancel="Cancel"
+                        delete="Delete"
+                        removeAllLocalStorageData={removeAllLocalStorageData}
+                        handleChangeState={handleChangeState}
+                    />}
                 </div>
                 {Array.isArray(currentItems) && currentItems.slice(0, 4).map((item) => (
                     <div className={styles.local} key={item.id}>
@@ -128,25 +143,27 @@ const Card = () => {
                         </div>
                     </div>
                 ))}
-                <div className={styles.pagination}>
-                    <div className={styles.pagination__container}>
-                        <button className={styles.pagination__btn} onClick={handleFirstPage}><img src={paginationOne} alt="paginationFirst" /></button>
-                        <button className={styles.pagination__btn} onClick={handlePreviousPage}><img src={paginationTwo} alt="paginationTwo" /></button>
-                        <div className={styles.pagination__block}>
-                            {[...Array(totalPages)].map((_, index) => (
-                                <button
-                                    key={index}
-                                    className={`${styles.pagination__number} ${currentPage === index + 1 ? styles.active : ''}`}
-                                    onClick={() => setCurrentPage(index + 1)}
-                                >
-                                    {index + 1}
-                                </button>
-                            ))}
+                {options.length >= 4 ?
+                    <div className={styles.pagination}>
+                        <div className={styles.pagination__container}>
+                            <button className={styles.pagination__btn} onClick={handleFirstPage}><img src={paginationOne} alt="paginationFirst" /></button>
+                            <button className={styles.pagination__btn} onClick={handlePreviousPage}><img src={paginationTwo} alt="paginationTwo" /></button>
+                            <div className={styles.pagination__block}>
+                                {[...Array(totalPages)].map((_, index) => (
+                                    <button
+                                        key={index}
+                                        className={`${styles.pagination__number} ${currentPage === index + 1 ? styles.active : ''}`}
+                                        onClick={() => setCurrentPage(index + 1)}
+                                    >
+                                        {index + 1}
+                                    </button>
+                                ))}
+                            </div>
+                            <button className={styles.pagination__btn} onClick={handleNextPage}><img src={paginationThree} alt="paginationThree" /></button>
+                            <button className={styles.pagination__btn} onClick={handleLastPage}><img src={paginationFour} alt="paginationFour" /></button>
                         </div>
-                        <button className={styles.pagination__btn} onClick={handleNextPage}><img src={paginationThree} alt="paginationThree" /></button>
-                        <button className={styles.pagination__btn} onClick={handleLastPage}><img src={paginationFour} alt="paginationFour" /></button>
                     </div>
-                </div>
+                : null}
             </div> 
             : 
             <div className={styles.allCard}>
