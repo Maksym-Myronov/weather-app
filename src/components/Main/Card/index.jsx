@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { removeCity, removeAllCity } from '../../../reducers/cityCard/cardSlice'
-import ModalWindow from '../../../shared/components/ModalWindow'
 //Images
 import snow from '../../../assets/img/Image.svg'
 import cloud from '../../../assets/img/06_cloudy_color.svg'
@@ -10,13 +9,13 @@ import rain from '../../../assets/img/11_heavy_rain_color.svg'
 import drizzle from '../../../assets/img/09_light_rain_color.svg'
 import heavyRain from '../../../assets/img/14_thunderstorm_color (1).svg'
 import partlyCloudy from '../../../assets/img/35_partly_cloudy_daytime_color.svg'
-import location from '../../../assets/img/placeholder (1) 1.svg'
 import paginationOne from '../../../assets/img/First.svg'
 import paginationTwo from '../../../assets/img/Prev.svg'
 import paginationThree from '../../../assets/img/Next.svg'
 import paginationFour from '../../../assets/img/Last.svg'
 //Styles
 import styles from './index.module.scss'
+import Recent from './Recent'
 
 const Card = () => {
 
@@ -111,38 +110,18 @@ const Card = () => {
     return (
         (options.length ? 
             <div className={styles.allCard}>
-                <div className={styles.allCards}>
-                    <h1 className={styles.allCards__recent}>Recent</h1>
-                    <button className={styles.allCards__btn} onClick={handleChangeState}>Cear All</button>
-                    {isActive && <ModalWindow 
-                        text="Are you sure you want to remove all cities from the recent list?"
-                        warning="Warning"
-                        cancel="Cancel"
-                        delete="Delete"
-                        removeAllLocalStorageData={removeAllLocalStorageData}
-                        handleChangeState={handleChangeState}
-                    />}
-                </div>
-                {Array.isArray(currentItems) && currentItems.slice(0, 4).map((item) => (
-                    <div className={styles.local} key={item.id}>
-                        <div className={styles.local__container}>
-                            <p className={styles.local__temp}>{Math.floor(item && item.main && item.main.temp) - 273}<span className={styles.local__span}>°</span></p>
-                            <button onClick={() => removeFromLocalStorage(item.id)} className={styles.local__btn}>x</button>
-                        </div>
-                        <div className={styles.local__temperature}>
-                            <div className={styles.local__day}>
-                                <p>{currentDay}, {currentDayOfMonth} {currentMonthName}</p>
-                                <div className={styles.local__location}>
-                                    <img src={location} alt="location" />
-                                    <h1>{item && item.name && item.sys ? `${item.name}, ${item.sys.country}` : "Loading..."}</h1>
-                                </div>
-                            </div>
-                            <div className={styles.local__images}>
-                                {renderWeatherImage(item && item.weather && item.weather[0]?.main)}
-                            </div>
-                        </div>
-                    </div>
-                ))}
+                <Recent 
+                    currentItems={currentItems}
+                    isActive={isActive} 
+                    handleChangeState={handleChangeState}
+                    removeAllLocalStorageData={removeAllLocalStorageData}
+                    removeFromLocalStorage={removeFromLocalStorage}
+                    currentDay={currentDay}
+                    currentDayOfMonth={currentDayOfMonth}
+                    currentMonthName={currentMonthName}
+                    renderWeatherImage={renderWeatherImage}
+                    options={options}
+                />
                 {options.length >= 4 ?
                     <div className={styles.pagination}>
                         <div className={styles.pagination__container}>

@@ -1,4 +1,5 @@
 import { useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
 //Images
 import heart from '../../../assets/img/Icon.svg'
 //Styles
@@ -11,8 +12,8 @@ const Data = () => {
     return (
         <div className={styles.data}>
             <div className={styles.data__link}>
-                <a href="#">Favorites</a>
-                <a href="#">Recent</a>
+                <Link to="Favorites">Favorites</Link>
+                <Link to="/">Recent</Link>
             </div>
             <div className={styles.data__local}>
                 <p className={styles.data__city}>{options.name}, {options.sys && options.sys.country}</p>
