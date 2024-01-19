@@ -1,7 +1,5 @@
 import WidgetLocalCard from '../Main/WidgetLocalCard'
-import Card from "./Card"
 import LocalCard from "./LocalCard"
-
 //Styles
 import styles from './index.module.scss'
 
@@ -12,7 +10,6 @@ const Main = () => {
                 <LocalCard />
                 <WidgetLocalCard  />
             </div>
-            <Card />
         </div>
     )
 }

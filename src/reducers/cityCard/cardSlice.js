@@ -5,7 +5,7 @@ const initialSavedOptions = JSON.parse(localStorage.getItem('savedOptions')) || 
 const initialState = {
     lat: 0,
     lon: 0,
-    temp: Array.isArray(initialSavedOptions) ? initialSavedOptions : [],
+    temp: Array.isArray(initialSavedOptions) ? initialSavedOptions.map(item => ({ ...item, isFavorite: false })) : [],
     status: 'idle',
     error: null
 }
@@ -22,9 +22,12 @@ export const getCity = createAsyncThunk("getCity", async ({ lat, lon }, { reject
     }
 });
 
+const cachedState = JSON.parse(localStorage.getItem('savedOptions'));
+const savedState = cachedState ? { ...initialState, temp: cachedState } : initialState;
+
 const cardSlice = createSlice({
     name: "card",
-    initialState,
+    initialState: savedState,
     reducers: {
         removeCity: (state, action) => {
             const idRemove = action.payload
@@ -34,7 +37,11 @@ const cardSlice = createSlice({
         removeAllCity: (state) => {
             state.temp = []
             localStorage.removeItem('savedOptions');
-        }
+        },
+        updateFavoriteStatus: (state, action) => {
+            state.temp = action.payload;
+            localStorage.setItem('savedOptions', JSON.stringify(state.temp));
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -58,4 +65,4 @@ const cardSlice = createSlice({
 
 export default cardSlice.reducer;
 export const selectCityData = (state) => state.card;
-export const { removeCity, removeAllCity } = cardSlice.actions
+export const { removeCity, removeAllCity, updateFavoriteStatus } = cardSlice.actions
