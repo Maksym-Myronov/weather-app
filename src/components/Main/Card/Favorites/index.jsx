@@ -2,18 +2,12 @@ import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectCityData, updateFavoriteStatus } from '../../../../reducers/cityCard/cardSlice';
 //Images
-import snow from '../../../../assets/img/Image.svg'
-import cloud from '../../../../assets/img/06_cloudy_color.svg'
-import sun from '../../../../assets/img/01_sunny_color.svg'
-import rain from '../../../../assets/img/11_heavy_rain_color.svg'
-import drizzle from '../../../../assets/img/09_light_rain_color.svg'
-import heavyRain from '../../../../assets/img/14_thunderstorm_color (1).svg'
-import partlyCloudy from '../../../../assets/img/35_partly_cloudy_daytime_color.svg'
 import location from '../../../../assets/img/placeholder (1) 1.svg'
 import starOne from '../../../../assets/img/star.png'
 import starSecond from '../../../../assets/img/star (1).png'
 //Styles
 import styles from '../index.module.scss';
+import { useImage } from '../../../../core/hooks/UseImage';
 
 const Favorites = () => {
     const options = useSelector((state) => state.card.temp);
@@ -21,6 +15,7 @@ const Favorites = () => {
     const dispatch = useDispatch();
     const storedFavoriteStatus = JSON.parse(localStorage.getItem('favoriteStatus')) || {};
     const [favoriteStatus, setFavoriteStatus] = useState(storedFavoriteStatus);
+    const [renderWeatherImage] = useImage()
 
     const handleStarClick = (id) => {
         const updatedStatus = { ...favoriteStatus, [id]: !favoriteStatus[id] };
@@ -34,36 +29,6 @@ const Favorites = () => {
 
         dispatch(updateFavoriteStatus(updatedTemp));
     }
-
-    const renderWeatherImage = (weatherCondition) => {
-        let imageSource;
-        switch (weatherCondition) {
-            case 'Thunderstorm':
-                imageSource = heavyRain;
-                break;
-            case 'Drizzle':
-                imageSource = drizzle;
-                break;
-            case 'Rain':
-                imageSource = rain;
-                break;
-            case 'Snow':
-                imageSource = snow;
-                break;
-            case 'Clear':
-                imageSource = sun;
-                break;
-            case 'Clouds':
-                imageSource = cloud;
-                break;
-            default:
-                imageSource = partlyCloudy; 
-                break;
-        }
-
-        return <img src={imageSource} alt={weatherCondition} className={styles.local__card}  style={{ width: '80px', height: '80px' }} />;
-        
-    };
 
     const monthInAYear = new Date().getMonth();
     const MONTH_YEAR = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -96,7 +61,7 @@ const Favorites = () => {
                             </div>
                         </div>
                             <div className={styles.local__images}>
-                                {renderWeatherImage(item && item.weather && item.weather[0]?.main)}
+                                {renderWeatherImage(item && item.weather && item.weather[0]?.main, {width: "80px", height: "80px"})}
                             </div>
                         </div>
                     </div>)}

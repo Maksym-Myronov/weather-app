@@ -57,7 +57,7 @@ const WidgetAllCard = ({ forecast }) => {
                     >
                         <CartesianGrid vertical={false} />
                         <XAxis dataKey="name"  />
-                        <YAxis domain={['dataMin', 'dataMax']} />
+                        <YAxis domain={['dataMin', 'dataMax']} reversed />
                         <Tooltip />
                         <Area  dataKey="uv" stroke="rgba(76, 223, 232, 1), rgba(121, 71, 247, 1)" strokeWidth={2} offset={1} stopColor='#7947F7' fill="#82ca9d" fillOpacity={0.05} />
                     </AreaChart>
