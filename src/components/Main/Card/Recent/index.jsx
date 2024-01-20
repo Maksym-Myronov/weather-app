@@ -1,7 +1,8 @@
-/* eslint-disable react/prop-types */
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectCityData,  updateFavoriteStatus} from "../../../../reducers/cityCard/cardSlice";
+import { useImage } from "../../../../core/hooks/UseImage";
+import { useGetData } from "../../../../core/hooks/useGetData";
 import ModalWindow from "../../../../shared/components/ModalWindow"
 //Images
 import location from '../../../../assets/img/placeholder (1) 1.svg'
@@ -10,11 +11,13 @@ import starSecond from '../../../../assets/img/star (1).png'
 //Styles
 import styles from '../index.module.scss'
 
-const Recent = ({ currentItems, isActive, handleChangeState, removeAllLocalStorageData, removeFromLocalStorage, currentDay, currentDayOfMonth, currentMonthName, renderWeatherImage }) => {
+const Recent = ({handleChangeState, currentItems, isActive, removeFromLocalStorage, removeAllLocalStorageData}) => {
     const { temp } = useSelector(selectCityData);
     const dispatch = useDispatch();
     const storedFavoriteStatus = JSON.parse(localStorage.getItem('favoriteStatus')) || {};
     const [favoriteStatus, setFavoriteStatus] = useState(storedFavoriteStatus);
+    const [renderWeatherImage] = useImage()
+    const [currentDay, currentDayOfMonth, currentMonthName] = useGetData()
 
     const handleStarClick = (id) => {
         const updatedStatus = { ...favoriteStatus, [id]: !favoriteStatus[id] };
@@ -44,7 +47,7 @@ const Recent = ({ currentItems, isActive, handleChangeState, removeAllLocalStora
                         handleChangeState={handleChangeState}
                     />}
             </div>
-            {Array.isArray(currentItems) && currentItems.slice(0, 4).map((item) => (
+            {Array.isArray(currentItems) && currentItems.map((item) => (
                 <div className={styles.local} key={item.id}>
                     <div className={styles.local__container}>
                         <button onClick={() => handleStarClick(item.id)} ><img src={ favoriteStatus[item.id] ?  starSecond : starOne} alt="star" className={styles.local__star} /></button>
@@ -62,7 +65,7 @@ const Recent = ({ currentItems, isActive, handleChangeState, removeAllLocalStora
                             </div>
                         </div>
                         <div className={styles.local__images}>
-                            {renderWeatherImage(item && item.weather && item.weather[0]?.main)}
+                            {renderWeatherImage(item && item.weather && item.weather[0]?.main, {width: "80px", height: "80px"})}
                         </div>
                     </div>
                 </div>

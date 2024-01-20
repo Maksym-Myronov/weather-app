@@ -1,14 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useImage } from '../../../core/hooks/UseImage';
 import { getTemperature, selectTemperatureData } from '../../../reducers/ip/temperatureSlice';
-//Images
-import snow from '../../../assets/img/Image.svg'
-import cloud from '../../../assets/img/06_cloudy_color.svg'
-import sun from '../../../assets/img/01_sunny_color.svg'
-import rain from '../../../assets/img/11_heavy_rain_color.svg'
-import drizzle from '../../../assets/img/09_light_rain_color.svg'
-import heavyRain from '../../../assets/img/14_thunderstorm_color (1).svg'
-import partlyCloudy from '../../../assets/img/35_partly_cloudy_daytime_color.svg'
 //Styles
 import styles from './index.module.scss'
 
@@ -18,6 +11,7 @@ const LocalCard = () => {
     const [currentTime, setCurrentTime] = useState('');
     const [lat, setLat] = useState(0)
     const [lon, setLon] = useState(0)
+    const [renderWeatherImage] = useImage()
     const [celsiusMax, setCelsiusMax] = useState(0);
     const dispatch = useDispatch()
     const options = useSelector(selectTemperatureData);
@@ -70,35 +64,6 @@ const LocalCard = () => {
         return () => clearInterval(intervalId);
     }, [currentTime]); 
 
-    const renderWeatherImage = (weatherCondition) => {
-        let imageSource;
-        switch (weatherCondition) {
-            case 'Thunderstorm':
-                imageSource = heavyRain;
-                break;
-            case 'Drizzle':
-                imageSource = drizzle;
-                break;
-            case 'Rain':
-                imageSource = rain;
-                break;
-            case 'Snow':
-                imageSource = snow;
-                break;
-            case 'Clear':
-                imageSource = sun;
-                break;
-            case 'Clouds':
-                imageSource = cloud;
-                break;
-            default:
-                imageSource = partlyCloudy; 
-                break;
-        }
-
-        return <img src={imageSource} alt={weatherCondition} className={styles.local__card} />;
-    };
-
     return (
         <div className={styles.local}>
             <div className={styles.local__container}>
@@ -106,7 +71,7 @@ const LocalCard = () => {
                 <p className={styles.local__time}>{currentTime}</p>
             </div>
             <div className={styles.local__images}>
-                {renderWeatherImage(options.temp && options.temp.weather && options.temp.weather[0]?.main)}
+                {renderWeatherImage(options.temp && options.temp.weather && options.temp.weather[0]?.main, {width: "100px", height: "100px"})}
                 <p>{options.temp && options.temp.weather && options.temp.weather[0]?.main}</p>
             </div>
             <div className={styles.local__temperature}>
