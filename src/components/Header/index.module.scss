@@ -1,8 +1,11 @@
+@use './media.scss' as *;
+
 .header {
     display: flex;
     justify-content: space-between;
-    padding: 15px 30px;
+    padding: 1.5rem 3rem;
     background: #313131;
     align-items: center;
     margin-bottom: 15px;
+    width: 100%;
 }
