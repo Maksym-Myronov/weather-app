@@ -78,13 +78,13 @@ const Card = () => {
                             <button className={styles.pagination__btn} onClick={handleFirstPage}><img src={paginationOne} alt="paginationFirst" /></button>
                             <button className={styles.pagination__btn} onClick={handlePreviousPage}><img src={paginationTwo} alt="paginationTwo" /></button>
                             <div className={styles.pagination__block}>
-                                {[...Array(totalPages)].map((_, index) => (
+                                {[...Array(totalPages)].map((_, item) => (
                                     <button
-                                        key={index}
-                                        className={`${styles.pagination__number} ${currentPage === index + 1 ? styles.active : ''}`}
-                                        onClick={() => setCurrentPage(index + 1)}
+                                        key={item}
+                                        className={`${styles.pagination__number} ${currentPage === item + 1 ? styles.active : ''}`}
+                                        onClick={() => setCurrentPage(item + 1)}
                                     >
-                                        {index + 1}
+                                        {item + 1}
                                     </button>
                                 ))}
                             </div>
