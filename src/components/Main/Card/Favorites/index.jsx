@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectCityData, updateFavoriteStatus } from '../../../../reducers/cityCard/cardSlice';
 import { useImage } from '../../../../core/hooks/UseImage';
@@ -6,6 +6,10 @@ import { useImage } from '../../../../core/hooks/UseImage';
 import location from '../../../../assets/img/placeholder (1) 1.svg'
 import starOne from '../../../../assets/img/star.png'
 import starSecond from '../../../../assets/img/star (1).png'
+import paginationOne from '../../../../assets/img/First.svg'
+import paginationTwo from '../../../../assets/img/Prev.svg'
+import paginationThree from '../../../../assets/img/Next.svg'
+import paginationFour from '../../../../assets/img/Last.svg'
 //Styles
 import styles from '../index.module.scss';
 
@@ -15,6 +19,8 @@ const Favorites = () => {
     const dispatch = useDispatch();
     const storedFavoriteStatus = JSON.parse(localStorage.getItem('favoriteStatus')) || {};
     const [favoriteStatus, setFavoriteStatus] = useState(storedFavoriteStatus);
+    const [newMapArray, setNewMapArray] = useState([])
+    const [currentPage, setCurrentPage] = useState(1);
     const [renderWeatherImage] = useImage()
 
 
@@ -38,8 +44,54 @@ const Favorites = () => {
     const currentDay = WEEK_DAYS[dayInAWeek];
     const currentDayOfMonth = new Date().getDate();
     const currentMonthName = MONTH_YEAR[monthInAYear];
+    const itemsPerPage = 4;
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const currentItems = options.slice(startIndex, endIndex);
+    const totalPages = Math.ceil(options.filter(item => item.isFavorite).length / itemsPerPage);
+    
+    useEffect(() => {
+        const newArray = () => {
+            const mapArray = options.map((item) => {
+                return item.isFavorite;
+            });
+            setNewMapArray(mapArray.filter((item) => item === true));
+        };
 
-    console.log();
+        newArray();
+    }, [options,]);
+    
+    useEffect(() => {
+        if (currentPage > totalPages) {
+            setCurrentPage(totalPages);
+        }
+    }, [currentPage, totalPages])
+
+    const handlePreviousPage = () => {
+        if (currentPage > 1) {
+            setCurrentPage(currentPage - 1);
+        }
+    };
+
+    const handleFirstPage = () => {
+        if (currentPage > 1) {
+            setCurrentPage(Math.max(1, currentPage - 10));
+        } 
+    };
+    
+    const handleNextPage = () => {
+        if (currentPage < totalPages) {
+            setCurrentPage(currentPage + 1);
+        }
+    };
+
+    const handleLastPage = () => {
+        if (currentPage === 1) {
+            setCurrentPage(Math.min(totalPages, currentPage + 9));
+        } else if (currentPage < totalPages) {
+            setCurrentPage(Math.min(totalPages, currentPage + 10));
+        }
+    };
 
     return (
         <div className={styles.allCard}>
@@ -50,7 +102,7 @@ const Favorites = () => {
             <div>
                 {options.length > 0 ? (
                     <>
-                        {options.map((item) => (
+                        {currentItems.map((item) => (
                             item.isFavorite && (
                                 <div className={styles.local} key={item.id}>
                                     {favoriteStatus[item.id] ? (
@@ -104,6 +156,27 @@ const Favorites = () => {
                         </p>
                     </div>
                 )}
+                {newMapArray && newMapArray.length >= 4 ?
+                    <div className={styles.pagination}>
+                        <div className={styles.pagination__container}>
+                            <button className={styles.pagination__btn} onClick={handleFirstPage}><img src={paginationOne} alt="paginationFirst" /></button>
+                            <button className={styles.pagination__btn} onClick={handlePreviousPage}><img src={paginationTwo} alt="paginationTwo" /></button>
+                            <div className={styles.pagination__block}>
+                                {[...Array(totalPages)].map((_, item) => (
+                                    <button
+                                        key={item}
+                                        className={`${styles.pagination__number} ${currentPage === item + 1 ? styles.active : ''}`}
+                                        onClick={() => setCurrentPage(item + 1)}
+                                    >
+                                        {item + 1}
+                                    </button>
+                                ))}
+                            </div>
+                            <button className={styles.pagination__btn} onClick={handleNextPage}><img src={paginationThree} alt="paginationThree" /></button>
+                            <button className={styles.pagination__btn} onClick={handleLastPage}><img src={paginationFour} alt="paginationFour" /></button>
+                        </div>
+                    </div>
+                : null}
             </div>
         </div>
     );

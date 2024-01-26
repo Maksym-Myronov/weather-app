@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { removeCity, removeAllCity } from '../../../reducers/cityCard/cardSlice'
 //Images
@@ -20,6 +20,12 @@ const Card = () => {
     const endIndex = startIndex + itemsPerPage;
     const currentItems = options.slice(startIndex, endIndex);
     const totalPages = Math.ceil(options.length / itemsPerPage);
+
+    useEffect(() => {
+        if (currentPage > totalPages) {
+            setCurrentPage(totalPages);
+        }
+    }, [options, currentPage, totalPages]);
 
     const handleChangeState = () => {
         setIsActive(!isActive)
