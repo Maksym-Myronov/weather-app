@@ -5,7 +5,7 @@
     height: 160px;
     color: black;
     padding: 10px 10px 10px 20px;
-    margin: 0px 0px 20px 0px;
+    margin: 0px 0px 10px 0px;
 
     &__container {
         display: flex;
@@ -125,7 +125,7 @@
         display: flex;
         position: absolute;
         justify-content: center;
-        top: 770px;
+        top: 740px;
         z-index: 90;
         background: #F3F3F3;
         border-radius: 8px;
