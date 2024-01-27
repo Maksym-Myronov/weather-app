@@ -10,6 +10,7 @@ import starOne from '../../../../assets/img/star.png'
 import starSecond from '../../../../assets/img/star (1).png'
 //Styles
 import styles from '../index.module.scss'
+import { useTranslation } from "react-i18next";
 
 const Recent = ({handleChangeState, currentItems, isActive, removeFromLocalStorage, removeAllLocalStorageData}) => {
     const { temp } = useSelector(selectCityData);
@@ -32,11 +33,13 @@ const Recent = ({handleChangeState, currentItems, isActive, removeFromLocalStora
         dispatch(updateFavoriteStatus(updatedTemp));
     }
 
+    const {t} = useTranslation()
+
     return (
         <div>
             <div className={styles.allCards}>
-                <h1 className={styles.allCards__recent}>Recent</h1>
-                <button className={styles.allCards__btn} onClick={handleChangeState}>Clear All</button>
+                <h1 className={styles.allCards__recent}>{t("recent")}</h1>
+                <button className={styles.allCards__btn} onClick={handleChangeState}>{t("clear")}</button>
                 {isActive && 
                     <ModalWindow 
                         text="Are you sure you want to remove all cities from the recent list?"
