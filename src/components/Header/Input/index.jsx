@@ -7,6 +7,7 @@ import reactIcon from '../../../assets/img/Integration icons.svg'
 import search from '../../../assets/img/search.svg'
 //Styles
 import styles from './index.module.scss';
+import { useTranslation } from "react-i18next";
 
 const Input = () => {
     const dispatch = useDispatch();
@@ -36,6 +37,8 @@ const Input = () => {
         }
     }
 
+    const {t} = useTranslation()
+
     return (
         <div className={styles.form}>
             <div className={styles.form__logo}>
@@ -64,7 +67,7 @@ const Input = () => {
                 : null}
             </form>
             <div>
-                <button className={styles.form__btn} onClick={handleButtonClick}>Search</button>
+                <button className={styles.form__btn} onClick={handleButtonClick}>{t("search")}</button>
             </div>
         </div>
     );
