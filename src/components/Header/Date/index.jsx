@@ -24,8 +24,11 @@ const Data = () => {
                 <img src={heart} alt="heart" className={styles.data__images}/>
             </div>
             <div>
-                <button onClick={() => changeLanguage("en")}>en</button>
-                <button onClick={() => changeLanguage("ua")}>ua</button>
+                <select onChange={(e) => changeLanguage(e.target.value)} className={styles.data__select}>
+                    <option value="" disabled  hidden>Select Language</option>
+                    <option value="en" className={styles.data__option}>en</option>
+                    <option value="ua" className={styles.data__option}>ua</option>
+                </select>
             </div>
         </div>
     )

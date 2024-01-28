@@ -9,6 +9,7 @@ import paginationFour from '../../../assets/img/Last.svg'
 //Styles
 import styles from './index.module.scss'
 import Recent from './Recent'
+import { useTranslation } from 'react-i18next'
 
 const Card = () => {
 
@@ -68,6 +69,8 @@ const Card = () => {
         setIsActive(!isActive)
     }
 
+    const {t} = useTranslation()
+
     return (
         (options.length ? 
             <div className={styles.allCard}>
@@ -103,10 +106,10 @@ const Card = () => {
             : 
             <div className={styles.allCard}>
                 <div className={styles.allCards}>
-                    <h1 className={styles.allCards__recent}>Recent</h1>
+                    <h1 className={styles.allCards__recent}>{t("recent")}</h1>
                 </div>
                     <div className={styles.local__error}>
-                        <p>Unfortunately, you have no recent items at the moment. Try adding new cities to see fresh weather data here.</p>
+                        <p>{t("Loading")}</p>
                     </div>
             </div> 
         )

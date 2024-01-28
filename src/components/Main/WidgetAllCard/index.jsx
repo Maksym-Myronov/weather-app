@@ -2,6 +2,7 @@ import  { useState, useEffect } from 'react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 //Styles
 import styles from './index.module.scss';
+import { useTranslation } from 'react-i18next';
 
 const WidgetAllCard = ({ forecast }) => {
 
@@ -37,12 +38,14 @@ const WidgetAllCard = ({ forecast }) => {
         }
     }, [forecast]);
 
+    const {t} = useTranslation()
+
     return (
         <div className={styles.chart}>
             
             <div className={styles.chart__widget}>
                 <div className={styles.chart__day}>
-                    <h1 className={styles.chart__average}>Average Day Temprature</h1>
+                    <h1 className={styles.chart__average}>{t("Temprature")}</h1>
                     <h1>{allDate}</h1>
                 </div>
                 <ResponsiveContainer width="100%" height={250}>

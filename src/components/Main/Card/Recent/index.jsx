@@ -4,6 +4,7 @@ import { selectCityData,  updateFavoriteStatus} from "../../../../reducers/cityC
 import { useImage } from "../../../../core/hooks/UseImage";
 import { useGetData } from "../../../../core/hooks/useGetData";
 import ModalWindow from "../../../../shared/components/ModalWindow"
+import translete from '../../../../translete/index'
 //Images
 import location from '../../../../assets/img/placeholder (1) 1.svg'
 import starOne from '../../../../assets/img/star.png'
@@ -18,7 +19,7 @@ const Recent = ({handleChangeState, currentItems, isActive, removeFromLocalStora
     const storedFavoriteStatus = JSON.parse(localStorage.getItem('favoriteStatus')) || {};
     const [favoriteStatus, setFavoriteStatus] = useState(storedFavoriteStatus);
     const [renderWeatherImage] = useImage()
-    const [currentDay, currentDayOfMonth, currentMonthName] = useGetData()
+    const [currentDayEn, currentDayUa, currentDayOfMonth, currentMonthNameEn, currentMonthNameUa] = useGetData()
 
     const handleStarClick = (id) => {
         const updatedStatus = { ...favoriteStatus, [id]: !favoriteStatus[id] };
@@ -42,10 +43,10 @@ const Recent = ({handleChangeState, currentItems, isActive, removeFromLocalStora
                 <button className={styles.allCards__btn} onClick={handleChangeState}>{t("clear")}</button>
                 {isActive && 
                     <ModalWindow 
-                        text="Are you sure you want to remove all cities from the recent list?"
-                        warning="Warning"
-                        cancel="Cancel"
-                        delete="Delete"
+                        text={t("Question")}
+                        warning={t("Warning")}
+                        cancel={t("Cancel")}
+                        delete={t("Delete")}
                         removeAllLocalStorageData={removeAllLocalStorageData}
                         handleChangeState={handleChangeState}
                     />}
@@ -60,7 +61,7 @@ const Recent = ({handleChangeState, currentItems, isActive, removeFromLocalStora
                         <div className={styles.local__day}>
                             <div>
                                 <p className={styles.local__temp}>{Math.floor(item && item.main && item.main.temp) - 273}<span className={styles.local__span}>°</span></p>
-                                <p>{currentDay}, {currentDayOfMonth} {currentMonthName}</p>
+                                <p>{translete.language === 'en' ? currentDayEn : currentDayUa}, {currentDayOfMonth} {translete.language === 'en' ? currentMonthNameEn : currentMonthNameUa}</p>
                             </div>
                             <div className={styles.local__location}>
                                 <img src={location} alt="location" />
