@@ -2,6 +2,9 @@ import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectCityData, updateFavoriteStatus } from '../../../../reducers/cityCard/cardSlice';
 import { useImage } from '../../../../core/hooks/UseImage';
+import { useTranslation } from 'react-i18next';
+import { useGetData } from '../../../../core/hooks/useGetData';
+import translete from '../../../../translete/index'
 //Images
 import location from '../../../../assets/img/placeholder (1) 1.svg'
 import starOne from '../../../../assets/img/star.png'
@@ -12,6 +15,7 @@ import paginationThree from '../../../../assets/img/Next.svg'
 import paginationFour from '../../../../assets/img/Last.svg'
 //Styles
 import styles from '../index.module.scss';
+
 
 const Favorites = () => {
     const options = useSelector((state) => state.card.temp);
@@ -37,13 +41,7 @@ const Favorites = () => {
         dispatch(updateFavoriteStatus(updatedTemp));
     }
 
-    const monthInAYear = new Date().getMonth();
-    const MONTH_YEAR = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-    const WEEK_DAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-    const dayInAWeek = new Date().getDay();
-    const currentDay = WEEK_DAYS[dayInAWeek];
-    const currentDayOfMonth = new Date().getDate();
-    const currentMonthName = MONTH_YEAR[monthInAYear];
+    const [currentDayEn, currentDayUa, currentDayOfMonth, currentMonthNameEn, currentMonthNameUa] = useGetData()
     const itemsPerPage = 4;
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
@@ -93,11 +91,13 @@ const Favorites = () => {
         }
     };
 
+    const {t} = useTranslation()
+
     return (
         <div className={styles.allCard}>
             <div className={styles.allCards}>
-                <h1 className={styles.allCards__recent}>Favorites</h1>
-                <button className={styles.allCards__btn}>Clear All</button>
+                <h1 className={styles.allCards__recent}>{t("favorites")}</h1>
+                {/* <button className={styles.allCards__btn}>{t("clear")}</button> */}
             </div>
             <div>
                 {options.length > 0 ? (
@@ -119,7 +119,7 @@ const Favorites = () => {
                                             <div className={styles.local__temperature}>
                                                 <div className={styles.local__day}>
                                                     <p className={styles.local__temp}>{Math.floor(item && item.main && item.main.temp) - 273}<span className={styles.local__span}>°</span></p>
-                                                    <p>{currentDay}, {currentDayOfMonth} {currentMonthName}</p>
+                                                    <p>{translete.language === 'en' ? currentDayEn : currentDayUa}, {currentDayOfMonth} {translete.language === 'en' ? currentMonthNameEn : currentMonthNameUa}</p>
                                                     <div className={styles.local__location}>
                                                         <img src={location} alt="location" />
                                                         <h1>
@@ -143,17 +143,13 @@ const Favorites = () => {
                         ))}
                         {options.every(item => !favoriteStatus[item.id] || !item.isFavorite) && (
                             <div className={styles.local__messages}>
-                                <p>
-                                    Unfortunately, you have no favorites items at the moment.
-                                </p>
+                                <p>{t("LoadingFavorites")}</p>
                             </div>
                         )}
                     </>
                 ) : (
                     <div className={styles.local__messages}>
-                        <p>
-                            Unfortunately, you have no favorites items at the moment.
-                        </p>
+                        <p>{t("LoadingFavorites")}</p>
                     </div>
                 )}
                 {newMapArray && newMapArray.length >= 4 ?

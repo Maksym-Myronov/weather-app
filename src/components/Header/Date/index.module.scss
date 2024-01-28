@@ -2,11 +2,11 @@
     display: flex;
     justify-content: space-between;
     color: white;
+    width: 490px;
 
     &__link {
         display: flex;
         gap: 35px;
-        margin-right: 230px;
     }
 
     &__local {
@@ -21,5 +21,17 @@
 
     &__city {
         margin-right: 10px
+    }
+
+    &__select {
+        padding: 5px;
+        border-radius: 10px;
+        box-shadow: var(--tw-ring-offset-shadow, 0 0 transparent),var(--tw-ring-shadow, 0 0 transparent),var(--tw-shadow);
+        cursor: pointer;
+        outline: none;
+    }
+
+    &__option {
+        cursor: pointer;
     }
 }

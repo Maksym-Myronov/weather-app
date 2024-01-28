@@ -4,6 +4,7 @@ import { useImage } from '../../../core/hooks/UseImage';
 import { getTemperature, selectTemperatureData } from '../../../reducers/ip/temperatureSlice';
 //Styles
 import styles from './index.module.scss'
+import { useTranslation } from 'react-i18next';
 
 const LocalCard = () => {
     const [data, setData] = useState([]);
@@ -64,6 +65,8 @@ const LocalCard = () => {
         return () => clearInterval(intervalId);
     }, [currentTime]); 
 
+    const {t} = useTranslation()
+
     return (
         <div className={styles.local}>
             <div className={styles.local__container}>
@@ -72,7 +75,7 @@ const LocalCard = () => {
             </div>
             <div className={styles.local__images}>
                 {renderWeatherImage(options.temp && options.temp.weather && options.temp.weather[0]?.main, {width: "100px", height: "100px"})}
-                <p>{options.temp && options.temp.weather && options.temp.weather[0]?.main}</p>
+                <p>{t(options.temp && options.temp.weather && options.temp.weather[0]?.main)}</p>
             </div>
             <div className={styles.local__temperature}>
                 <p>AQI 70</p>

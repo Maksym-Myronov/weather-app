@@ -50,7 +50,7 @@ const Input = () => {
                     <img src={search} alt="search" className={styles.form__search} />
                     <input 
                         type="text" 
-                        placeholder="Enter locations"
+                        placeholder={t("placeholder")}
                         value={term}
                         onChange={onInputChange}
                         className={styles.form__input}
