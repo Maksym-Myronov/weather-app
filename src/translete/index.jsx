@@ -9,7 +9,6 @@ const loadPath = (languages, namespaces) => {
 
 i18n.use(Backend).use(languageDetector).use(initReactI18next).init({
     fallbackLng: 'en',
-    debug: true,
     detection: {
         order: ['queryString', 'cookie'],
         cache: ['cookie'],
