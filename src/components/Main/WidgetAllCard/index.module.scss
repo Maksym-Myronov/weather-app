@@ -1,44 +1,25 @@
+@import '../../../styles/variables.scss';
+@import '../../../styles/mixins.scss';
+
 .chart {
     border-radius: 25px;
-    color: white;
+    color: $white;
     padding: 20px 0px;
 
     &__widget {
         height: 380px;
         width: 900px;
-        background: #F3F3F3;
+        background: $white;
         border-radius: 16px;
         display: inline-block;
         align-items: center;
     }
-    
-    &__city {
-        cursor: pointer;
-    }
-
-    &__info {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
 
     &__day {
-        display: flex;
-        justify-content: space-between;
+        @include d-flex(null, space-between, null);
         margin: 30px;
-        color: black;
+        color: $black;
         font-weight: 600;
-    }
-
-    &__date {
-        display: flex;
-        gap: 20px;
-        align-items: center;
-    }
-
-    &__fullDate {
-        padding: 5px;
-        text-align: center;
     }
 
 }

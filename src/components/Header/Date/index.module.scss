@@ -1,7 +1,9 @@
+@import '../../../styles/variables.scss';
+@import '../../../styles/mixins.scss';
+
 .data {
-    display: flex;
-    justify-content: space-between;
-    color: white;
+    @include d-flex(null, space-between, null);
+    color: $white;
     width: 490px;
 
     &__link {
@@ -10,8 +12,7 @@
     }
 
     &__local {
-        display: flex;
-        align-items: center;
+        @include d-flex(null, space-between, center);
     }
 
     &__images {

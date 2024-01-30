@@ -1,21 +1,21 @@
+@import '../../../styles/variables.scss';
+@import '../../../styles/mixins.scss';
+
 .local {
-    background: #F3F3F3;
+    background: $whites;
     width: 490px;
     border-radius: 12px;
     height: 160px;
-    color: black;
+    color: $black;
     padding: 10px 10px 10px 20px;
     margin: 0px 0px 10px 0px;
 
     &__container {
-        display: flex;
-        justify-content: space-between;
+        @include d-flex(null, space-between, null);
     }
 
     &__temperature {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+        @include d-flex(null, space-between, center);
     }
 
     &__temp {
@@ -23,8 +23,7 @@
     }
 
     &__location {
-        display: flex;
-        align-items: center;
+        @include d-flex(null, null, center);
         gap: 10px;
     }
 
@@ -47,11 +46,11 @@
     }
 
     &__error {
-        background: #F3F3F3;
+        background: $whites;
         width: 490px;
         border-radius: 12px;
         height: 160px;
-        color: black;
+        color: $black;
         padding: 50px 10px 10px 20px;
         margin: 0px 0px 20px 0px;
     }
@@ -63,11 +62,11 @@
     }
 
     &__messages {
-        background: #F3F3F3;
+        background: $whites;
         width: 490px;
         border-radius: 12px;
         height: 160px;
-        color: black;
+        color: $black;
         padding: 50px 10px 10px 20px;
         margin: 0px 0px 20px 0px;
     }
@@ -99,9 +98,8 @@
 }
 
 .allCards {
-    display: flex;
-    justify-content: space-between;
-    color: white;
+    @include d-flex(null, space-between, null);
+    color: $white;
     margin-bottom: 20px;
     width: 488px;
 
@@ -111,7 +109,7 @@
 
     &__btn {
         background: none;
-        color: white;
+        color: $white;
         text-decoration: underline;
         cursor: pointer;
         font-size: 1.1rem;
@@ -119,27 +117,25 @@
 }
 
 .pagination {
-    color: white;
+    color: $white;
 
     &__container {
-        display: flex;
         position: absolute;
-        justify-content: center;
+        @include d-flex(null, center, null);
         top: 740px;
         z-index: 90;
-        background: #F3F3F3;
+        background: $whites;
         border-radius: 8px;
         width: 490px;
     }
 
     &__btn {
-        display: flex;
         cursor: pointer;
-        color: white;
+        color: $white;
         margin: 0px 10px;
-        background: #F3F3F3;
+        background: $whites;
         padding: 5px;
-        align-items: center;
+        @include d-flex( null, null, center);
         text-align: center;
         border-radius: 8px;
     }

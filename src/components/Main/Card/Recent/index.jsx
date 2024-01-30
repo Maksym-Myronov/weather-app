@@ -35,6 +35,7 @@ const Recent = ({handleChangeState, currentItems, isActive, removeFromLocalStora
     }
 
     const {t} = useTranslation()
+    console.log(currentItems);
 
     return (
         <div>
