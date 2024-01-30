@@ -100,7 +100,7 @@ const LocalCard = () => {
     return (
         <div className={styles.local}>
             <div className={styles.local__main}>
-                <div className={styles.local__temperature}>
+                <div >
                     <div>
                         <p className={styles.local__celsiusMax}>{celsiusMax}&#8451;</p>
                         <p className={styles.local__feels}>{t("Feels like")}: <span className={styles.local__feelsLike}>{celsiusFeelsLike}&#8451;</span></p>
@@ -126,9 +126,9 @@ const LocalCard = () => {
                 </div>
                 <div className={styles.local__images}>
                     {renderWeatherImage(options.temp && options.temp.weather && options.temp.weather[0]?.main, {width: "200px", height: "200px"})}
-                    <p className={styles.local__weather}>{t(options.temp && options.temp.weather && options.temp.weather[0]?.main)}</p>
+                    <p>{t(options.temp && options.temp.weather && options.temp.weather[0]?.main)}</p>
                 </div>
-                <div className={styles.local__sad}>
+                <div>
                     <div className={styles.local__information}>
                         <div className={styles.local__container}>
                             <div>
@@ -172,7 +172,7 @@ const LocalCard = () => {
                 </div>
             </div>
             <div className={styles.local__info}>
-                <div className={styles.local__city}>
+                <div>
                     <h1 className={styles.local__data}>{data ? data.city : "Loading..."}</h1>
                     <p className={styles.local__time}>{currentTime}</p>
                     <p>{translete.language === 'en' ? currentDayEn : currentDayUa}, {currentDayOfMonth} {translete.language === 'en' ? currentMonthNameEn : currentMonthNameUa}</p>

@@ -1,29 +1,28 @@
+@import '../../../styles/variables.scss';
+@import '../../../styles/mixins.scss';
+
 .local {
-    display: flex;
-    justify-content: space-between;
+    @include d-flex($justifyContent: space-between);
     padding: 0px 20px 0px 0px;
     margin-top: 8px;
 
     &__main {
-        background: white;
+        background: $white;
         border-radius: 16px;
         width: 900px;
         height: 330px;
-        color: black;
-        display: flex;
-        justify-content: space-between;
+        color: $black;
+        @include d-flex(null, space-between, null);
         padding: 10px 20px 20px 20px;
     }
 
     &__info {
         width: 300px;
         height: 330px;
-        background: white;
+        background: $white;
         border-radius: 16px;
-        display: flex;
-        align-items: center;
+        @include d-flex(null, center, center);
         text-align: center;
-        justify-content: center;
     }
 
     &__celsiusMax {
@@ -48,8 +47,7 @@
     }
 
     &__sunriseCard, &__suset{
-        display: flex;
-        align-items: center;
+        @include d-flex( null, null, center);
         gap: 10px;
         margin-bottom: 10px;
     }

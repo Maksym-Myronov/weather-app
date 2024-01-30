@@ -97,10 +97,9 @@ const Favorites = () => {
         <div className={styles.allCard}>
             <div className={styles.allCards}>
                 <h1 className={styles.allCards__recent}>{t("favorites")}</h1>
-                {/* <button className={styles.allCards__btn}>{t("clear")}</button> */}
             </div>
             <div>
-                {options.length > 0 ? (
+                {temp.length > 0 ? (
                     <>
                         {currentItems.map((item) => (
                             item.isFavorite && (

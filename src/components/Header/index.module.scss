@@ -1,11 +1,10 @@
 @use './media.scss' as *;
+@import '../../styles/mixins.scss';
 
 .header {
-    display: flex;
-    justify-content: space-between;
+    @include d-flex(null, space-between, center);
     padding: 1.5rem 2rem 1.5rem 3rem;
     background: #313131;
-    align-items: center;
     margin-bottom: 15px;
     width: 100%;
 }

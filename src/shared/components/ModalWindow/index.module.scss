@@ -1,3 +1,5 @@
+@import "../../../styles/variables.scss";
+
 .window {
     width: 100vw;
     height: 100vh;
@@ -16,7 +18,7 @@
         width: 900px;
         text-align: center;
         height: 600px;
-        color: white;
+        color: $white;
     }
 
     &__text {
@@ -30,7 +32,7 @@
 
     &__btnFirst {
         background: rgba(255, 255, 255, 0.38);
-        color: white;
+        color: $white;
         margin: 50px 0px 0px 20px;
         padding: 7px 10px;
         border-radius: 12px;
@@ -41,7 +43,7 @@
 
     &__btnSecond {
         background: #2B6CDE;
-        color: white;
+        color: $white;
         margin: 50px 0px 0px 20px;
         padding: 7px 10px;
         border-radius: 12px;

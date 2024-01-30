@@ -1,8 +1,10 @@
+@import '../../../styles/variables.scss';
+@import '../../../styles/mixins.scss';
+
 .widget {
     border-radius: 25px;
-    color: white;
-    display: flex;
-    justify-content: space-between;
+    color: $black;
+    @include d-flex(null, space-between, null);
     padding: 20px 0px;
     height: 500px;
     margin-top: 9px;
@@ -15,7 +17,7 @@
         display: inline-block;
         width: 300px;
         height: 380px;
-        background: white;
+        background: $white;
         border-radius: 16px;
         padding: 15px 10px 15px 25px;
         line-height: 45px;
@@ -24,12 +26,10 @@
     }
 
     &__info {
-        color: black;
-        display: flex;
-        text-align: center;
-        align-items: center;
-        justify-content: space-between;
+        color: $black;
+        @include d-flex(null, space-between, center);
         margin: 10px 10px 10px 0px;
+        text-align: center;
     }
 
     p {
@@ -47,8 +47,7 @@
 
     &__temp {
         width: 60px;
-        display: flex;
-        justify-content: space-between;
+        @include d-flex(null, space-between, null);
     }
 
     &__max {
