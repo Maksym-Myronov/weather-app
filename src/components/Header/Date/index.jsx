@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
@@ -6,13 +7,32 @@ import heart from '../../../assets/img/Icon.svg'
 //Styles
 import styles from './index.module.scss'
 
+
 const Data = () => {
     const {t, i18n} = useTranslation()
     const options = useSelector((state) => state.temperature.temp)
+    const [selectLanguage, setSelectLanguage] = useState("en");
 
-    const changeLanguage = (language) => {
+    useEffect(() => {
+        const storadeLanguage = localStorage.getItem("language")
+
+        if(storadeLanguage) {
+            i18n.changeLanguage(storadeLanguage)
+            setSelectLanguage(storadeLanguage)
+        } else {
+            const defaultLanguage = "en"
+            i18n.changeLanguage(defaultLanguage)
+            localStorage.setItem("language", defaultLanguage)
+            setSelectLanguage(defaultLanguage)
+        }
+    }, [i18n])
+
+    const changeLanguages = (language) => {
         i18n.changeLanguage(language)
+        localStorage.setItem("language", language)
+        setSelectLanguage(language);
     }
+    
     return (
         <div className={styles.data}>
             <div className={styles.data__link}>
@@ -24,8 +44,7 @@ const Data = () => {
                 <img src={heart} alt="heart" className={styles.data__images}/>
             </div>
             <div>
-                <select onChange={(e) => changeLanguage(e.target.value)} className={styles.data__select}>
-                    <option value="" disabled  hidden>Select Language</option>
+                <select onChange={(e) => changeLanguages(e.target.value)} className={styles.data__select} value={selectLanguage}>
                     <option value="en" className={styles.data__option}>en</option>
                     <option value="ua" className={styles.data__option}>ua</option>
                 </select>
