@@ -1,6 +1,8 @@
-import { useState, useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { removeCity, removeAllCity, selectCityData } from '../../../reducers/cityCard/cardSlice'
+import { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { removeCity, removeAllCity } from '../../../reducers/cityCard/cardSlice'
+import { useTranslation } from 'react-i18next'
+import Recent from './Recent'
 //Images
 import paginationOne from '../../../assets/img/First.svg'
 import paginationTwo from '../../../assets/img/Prev.svg'
@@ -8,53 +10,16 @@ import paginationThree from '../../../assets/img/Next.svg'
 import paginationFour from '../../../assets/img/Last.svg'
 //Styles
 import styles from './index.module.scss'
-import Recent from './Recent'
-import { useTranslation } from 'react-i18next'
+import { usePagination } from '../../../hooks/usePagination'
 
 const Card = () => {
     const [isActive, setIsActive] = useState(false);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [currentItems, setCurrentItems] = useState([]);
-    const { temp } = useSelector(selectCityData);
-    const itemsPerPage = 4;
-    const totalPages = Math.ceil(temp.length / itemsPerPage);
-
-    useEffect(() => {
-        const startIndex = (currentPage - 1) * itemsPerPage;
-        const endIndex = startIndex + itemsPerPage;
-        const newCurrentItems = temp.slice(startIndex, endIndex);
-        setCurrentItems(newCurrentItems);
-    }, [temp, currentPage]);
+    const [handlePreviousPage, handleLastPage, handleNextPage, handleFirstPage, currentItems, temp, setCurrentPage, currentPage, totalPages] = usePagination()
+    const {t} = useTranslation()
 
     const handleChangeState = () => {
         setIsActive(!isActive)
     }
-
-    const handlePreviousPage = () => {
-        if (currentPage > 1) {
-            setCurrentPage(currentPage - 1);
-        }
-    };
-
-    const handleFirstPage = () => {
-        if (currentPage > 1) {
-            setCurrentPage(Math.max(1, currentPage - 10));
-        } 
-    };
-    
-    const handleNextPage = () => {
-        if (currentPage < totalPages) {
-            setCurrentPage(currentPage + 1);
-        }
-    };
-
-    const handleLastPage = () => {
-        if (currentPage === 1) {
-            setCurrentPage(Math.min(totalPages, currentPage + 9));
-        } else if (currentPage < totalPages) {
-            setCurrentPage(Math.min(totalPages, currentPage + 10));
-        }
-    };
 
     const dispatch = useDispatch()
 
@@ -67,8 +32,6 @@ const Card = () => {
         setIsActive(!isActive)
     }
 
-    const {t} = useTranslation()
-
     return (
         (temp.length ? 
             <div className={styles.allCard}>
@@ -78,7 +41,6 @@ const Card = () => {
                     handleChangeState={handleChangeState}
                     removeAllLocalStorageData={removeAllLocalStorageData}
                     removeFromLocalStorage={removeFromLocalStorage}
-                    
                 />
                 {temp.length >= 4 ?
                     <div className={styles.pagination}>
