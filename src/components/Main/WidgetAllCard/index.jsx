@@ -1,13 +1,13 @@
-import  { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { useTranslation } from 'react-i18next';
 // Styles
 import styles from './index.module.scss';
-import { useTranslation } from 'react-i18next';
 
 const WidgetAllCard = ({ forecast }) => {
     const [storedForecast, setStoredForecast] = useState(null);
     const [dataTime, setDataTime] = useState(null);
-
+    const { t } = useTranslation();
     const data = new Date();
     const currentYear = data.getFullYear();
     const currentData = data.getDate();
@@ -26,8 +26,8 @@ const WidgetAllCard = ({ forecast }) => {
         }
     }, [forecast]);
 
-    const minTemperature = storedForecast && Math.min(...storedForecast) - 1;
-    const maxTemperature = storedForecast && Math.max(...storedForecast) ;
+    const minTemperature = storedForecast && Math.min(...storedForecast);
+    const maxTemperature = storedForecast && Math.max(...storedForecast);
 
     const chartData = [
         { name: dataTime && dataTime[0], uv: storedForecast && storedForecast[0], pv: 4000, amt: 2400 },
@@ -40,8 +40,6 @@ const WidgetAllCard = ({ forecast }) => {
         { name: dataTime && dataTime[7], uv: storedForecast && storedForecast[7], pv: 3490, amt: 2100 },
         { name: dataTime && dataTime[8], uv: maxTemperature, pv: 0, amt: 0 },
     ];
-
-    const { t } = useTranslation();
 
     return (
         <div className={styles.chart}>

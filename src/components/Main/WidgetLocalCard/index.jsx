@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import {selectTemperatureData} from '../../../reducers/ip/temperatureSlice'
-import { useImage } from '../../../core/hooks/UseImage'
+import { useImage } from '../../../hooks/useImage'
 import WidgetAllCard from '../WidgetAllCard'
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -12,7 +12,7 @@ import styles from './index.module.scss'
 
 
 const WidgetLocalCard = () => {
-
+    const {t} = useTranslation()
     const [forecast, setForecast] = useState(null)
     const [renderWeatherImage] = useImage()
     const options = useSelector(selectTemperatureData);
@@ -48,7 +48,6 @@ const WidgetLocalCard = () => {
     const currentDay = WEEK_DAYS.slice(dayInAWeek, WEEK_DAYS.length).concat(WEEK_DAYS.slice(0, dayInAWeek))
     const WEEK_DAYSs = ["Нд", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"]
     const currentDays = WEEK_DAYSs.slice(dayInAWeek, WEEK_DAYSs.length).concat(WEEK_DAYSs.slice(0, dayInAWeek))
-    const {t} = useTranslation()
 
     return (
         <div className={styles.widget}>

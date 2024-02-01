@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import LocalStorage from '../../core/helper/index'
 
-const initialSavedOptions = JSON.parse(localStorage.getItem('savedOptions')) || [];
+const initialSavedOptions = LocalStorage.getItem('savedOptions') || [];
 
 const initialState = {
     lat: 0,
@@ -22,8 +23,7 @@ export const getCity = createAsyncThunk("getCity", async ({ lat, lon }, { reject
     }
 });
 
-const cachedState = JSON.parse(localStorage.getItem('savedOptions'));
-const savedState = cachedState ? { ...initialState, temp: cachedState } : initialState;
+const savedState = initialSavedOptions ? { ...initialState, temp: initialSavedOptions } : initialState;
 
 const cardSlice = createSlice({
     name: "card",
@@ -32,15 +32,15 @@ const cardSlice = createSlice({
         removeCity: (state, action) => {
             const idRemove = action.payload
             state.temp = state.temp.filter((item) => item.id !== idRemove)
-            localStorage.setItem('savedOptions', JSON.stringify(state.temp))
+            LocalStorage.setItem('savedOptions', state.temp)
         },
         removeAllCity: (state) => {
             state.temp = []
-            localStorage.removeItem('savedOptions');
+            LocalStorage.removeItem('savedOptions')
         },
         updateFavoriteStatus: (state, action) => {
             state.temp = action.payload;
-            localStorage.setItem('savedOptions', JSON.stringify(state.temp));
+            LocalStorage.setItem('savedOptions', state.temp)
         },
     },
     extraReducers: (builder) => {
@@ -53,7 +53,7 @@ const cardSlice = createSlice({
                 const newCity = action.payload.temp;
                 if (!state.temp.some(city => city.id === newCity.id)) {
                     state.temp = [...state.temp, newCity];
-                    localStorage.setItem('savedOptions', JSON.stringify(state.temp));
+                    LocalStorage.setItem('savedOptions', state.temp)
                 }
             })
             .addCase(getCity.rejected, (state, action) => {

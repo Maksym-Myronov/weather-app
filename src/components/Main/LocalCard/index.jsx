@@ -1,9 +1,9 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useImage } from '../../../core/hooks/UseImage';
+import { useImage } from '../../../hooks/useImage';
 import { getTemperature, selectTemperatureData } from '../../../reducers/ip/temperatureSlice';
 import { useTranslation } from 'react-i18next';
-import { useGetData } from '../../../core/hooks/useGetData';
+import { useGetData } from '../../../hooks/useGetData';
 import translete from '../../../translete/index'
 //Images
 import sunRise from '../../../assets/img/sunrise.png'
@@ -17,6 +17,7 @@ import styles from './index.module.scss'
 
 const LocalCard = () => {
     const [data, setData] = useState([]);
+    const {t} = useTranslation()
     const [error, setError] = useState(null);
     const [currentTime, setCurrentTime] = useState('');
     const [celsiusFeelsLike, setCelsiusFeelsLike] = useState(0)
@@ -33,23 +34,19 @@ const LocalCard = () => {
     useEffect(() => {
         if (options.temp && options.temp.main) {
             const tempMaxCelsius = Math.floor(Number(options.temp.main.temp_max) - 273.15);
+            const feelsLike = Math.floor(Number(options.temp.main.feels_like) - 273.15);
             setCelsiusMax(tempMaxCelsius);
-        }
-        if (options.temp && options.temp.main) {
-            const tempMaxCelsius = Math.floor(Number(options.temp.main.feels_like) - 273.15);
-            setCelsiusFeelsLike(tempMaxCelsius);
+            setCelsiusFeelsLike(feelsLike);
         }
         if(options.temp && options.temp.sys) {
-            const newValue = options.temp && options.temp.sys && options.temp.sys.sunrise;
-            const dateObject = new Date(newValue * 1000);
-            const formattedTime = dateObject.toLocaleTimeString().slice(0, 5);
-            setFormattedTime(formattedTime);
-        }
-        if(options.temp && options.temp.sys) {
-            const newValue = options.temp && options.temp.sys && options.temp.sys.sunset;
-            const dateObject = new Date(newValue * 1000);
-            const formattedTime = dateObject.toLocaleTimeString().slice(0, 5);
-            setSunset(formattedTime);
+            const sunriseValue = options.temp && options.temp.sys && options.temp.sys.sunrise;
+            const dataSunrise = new Date(sunriseValue * 1000);
+            const formattedTimeSunrise = dataSunrise.toLocaleTimeString().slice(0, 5);
+            const sunsetValue = options.temp && options.temp.sys && options.temp.sys.sunset;
+            const dataSunset = new Date(sunsetValue * 1000);
+            const formattedTimeSunSet = dataSunset.toLocaleTimeString().slice(0, 5);
+            setFormattedTime(formattedTimeSunrise);
+            setSunset(formattedTimeSunSet);
         }
     }, [options.temp, options.sys]); 
 
@@ -94,7 +91,7 @@ const LocalCard = () => {
         return () => clearInterval(intervalId);
     }, [currentTime]); 
 
-    const {t} = useTranslation()
+
     const windSpeed = Math.ceil(options.temp && options.temp.wind && options.temp.wind.speed * 3.60).toString()
 
     return (

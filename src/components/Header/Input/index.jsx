@@ -2,12 +2,12 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCities } from "../../../reducers/weather/weatherSlice";
 import { getCity } from "../../../reducers/cityCard/cardSlice";
+import { useTranslation } from "react-i18next";
 //Images
 import reactIcon from '../../../assets/img/Integration icons.svg'
 import search from '../../../assets/img/search.svg'
 //Styles
 import styles from './index.module.scss';
-import { useTranslation } from "react-i18next";
 
 const Input = () => {
     const dispatch = useDispatch();

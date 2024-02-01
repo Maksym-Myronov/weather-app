@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectCityData,  updateFavoriteStatus} from "../../../../reducers/cityCard/cardSlice";
-import { useImage } from "../../../../core/hooks/UseImage";
-import { useGetData } from "../../../../core/hooks/useGetData";
+import { useImage } from "../../../../hooks/useImage";
+import { useGetData } from "../../../../hooks/useGetData";
+import { useTranslation } from "react-i18next";
 import ModalWindow from "../../../../shared/components/ModalWindow"
 import translete from '../../../../translete/index'
 //Images
@@ -11,14 +12,14 @@ import starOne from '../../../../assets/img/star.png'
 import starSecond from '../../../../assets/img/star (1).png'
 //Styles
 import styles from '../index.module.scss'
-import { useTranslation } from "react-i18next";
 
 const Recent = ({handleChangeState, currentItems, isActive, removeFromLocalStorage, removeAllLocalStorageData}) => {
-    const { temp } = useSelector(selectCityData);
-    const dispatch = useDispatch();
     const storedFavoriteStatus = JSON.parse(localStorage.getItem('favoriteStatus')) || {};
     const [favoriteStatus, setFavoriteStatus] = useState(storedFavoriteStatus);
     const [renderWeatherImage] = useImage()
+    const { temp } = useSelector(selectCityData);
+    const {t} = useTranslation()
+    const dispatch = useDispatch();
     const [currentDayEn, currentDayUa, currentDayOfMonth, currentMonthNameEn, currentMonthNameUa] = useGetData()
 
     const handleStarClick = (id) => {
@@ -33,8 +34,6 @@ const Recent = ({handleChangeState, currentItems, isActive, removeFromLocalStora
 
         dispatch(updateFavoriteStatus(updatedTemp));
     }
-
-    const {t} = useTranslation()
 
     return (
         <div>

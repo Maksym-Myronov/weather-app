@@ -7,18 +7,17 @@ import heart from '../../../assets/img/Icon.svg'
 //Styles
 import styles from './index.module.scss'
 
-
 const Data = () => {
     const {t, i18n} = useTranslation()
     const options = useSelector((state) => state.temperature.temp)
     const [selectLanguage, setSelectLanguage] = useState("en");
 
     useEffect(() => {
-        const storadeLanguage = localStorage.getItem("language")
+        const getLanguage = localStorage.getItem("language")
 
-        if(storadeLanguage) {
-            i18n.changeLanguage(storadeLanguage)
-            setSelectLanguage(storadeLanguage)
+        if(getLanguage) {
+            i18n.changeLanguage(getLanguage)
+            setSelectLanguage(getLanguage)
         } else {
             const defaultLanguage = "en"
             i18n.changeLanguage(defaultLanguage)
