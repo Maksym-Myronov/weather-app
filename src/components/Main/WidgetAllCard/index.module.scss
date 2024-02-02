@@ -17,9 +17,15 @@
 
     &__day {
         @include d-flex(null, space-between, null);
-        margin: 30px;
+        margin: 30px 30px 20px 30px;
         color: $black;
         font-weight: 600;
+    }
+
+    &__line {
+        height: 300px;
+        width: 910px;
+        padding: 0px 25px ;
     }
 
 }
