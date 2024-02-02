@@ -1,0 +1,41 @@
+@import '../../styles/mixins.scss';
+
+.error {
+    width: 100%;
+    height: 100vh;
+    background: #76484F;
+
+    &__imageOne {
+        text-align: right;
+    }
+
+    &__container {
+        @include d-flex(null, $justifyContent: space-between, $alignItems: null);
+        padding: 0px 100px;
+        color: #CE95A0;
+    }
+
+    &__warning {
+        font-size: 6rem;
+    }
+
+    &__status {
+        font-size: 4rem;
+    }
+
+    &__text {
+        font-size: 2rem;
+    }
+
+    &__btn {
+        background: none;
+        border: 1px solid #CE95A0;
+        color: #CE95A0;
+        border-radius: 10px;
+        padding: 10px 10px 10px 10px;
+        margin-top: 20px;
+        cursor: pointer;
+        font-size: 1.3rem;
+        margin-bottom: 180px;
+    }
+}

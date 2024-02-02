@@ -2,6 +2,7 @@ import Layout from './components/Layout'
 import Favorites from './components/Main/Card/Favorites/index.jsx'
 import { Route, Routes } from 'react-router-dom'
 import Card from './components/Main/Card/index.jsx'
+import ErrrorPage from './components/Error/index.jsx'
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
             <Route index element={<Card />} />
             <Route path="Favorites" element={<Favorites />}/>
           </Route>
+          <Route path='*' element={<ErrrorPage />} />
         </Routes>
     </>
   )
