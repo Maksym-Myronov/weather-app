@@ -12,15 +12,18 @@ import starOne from '../../../../assets/img/star.png'
 import starSecond from '../../../../assets/img/star (1).png'
 //Styles
 import styles from '../index.module.scss'
+import useTheme from "../../../../hooks/useTheme";
 
 const Recent = ({handleChangeState, currentItems, isActive, removeFromLocalStorage, removeAllLocalStorageData}) => {
     const storedFavoriteStatus = JSON.parse(localStorage.getItem('favoriteStatus')) || {};
     const [favoriteStatus, setFavoriteStatus] = useState(storedFavoriteStatus);
-    const [renderWeatherImage] = useImage()
-    const { temp } = useSelector(selectCityData);
-    const {t} = useTranslation()
     const dispatch = useDispatch();
+    const { temp } = useSelector(selectCityData);
+    const [renderWeatherImage] = useImage()
+    const { t } = useTranslation()
+    const { isDark } = useTheme()
     const [currentDayEn, currentDayUa, currentDayOfMonth, currentMonthNameEn, currentMonthNameUa] = useGetData()
+
 
     const handleStarClick = (id) => {
         const updatedStatus = { ...favoriteStatus, [id]: !favoriteStatus[id] };
@@ -37,8 +40,8 @@ const Recent = ({handleChangeState, currentItems, isActive, removeFromLocalStora
 
     return (
         <div>
-            <div className={styles.allCards}>
-                <h1 className={styles.allCards__recent}>{t("recent")}</h1>
+            <div className={isDark ? styles.allCards : styles.allCards__recent__black}>
+                <h1 className={styles.allCards__recent }>{t("recent")}</h1>
                 <button className={styles.allCards__btn} onClick={handleChangeState}>{t("clear")}</button>
                 {isActive && 
                     <ModalWindow 

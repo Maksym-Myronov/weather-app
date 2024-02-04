@@ -6,11 +6,13 @@ import { useTranslation } from 'react-i18next'
 import heart from '../../../assets/img/Icon.svg'
 //Styles
 import styles from './index.module.scss'
+import useTheme from '../../../hooks/useTheme'
 
 const Data = () => {
     const {t, i18n} = useTranslation()
     const options = useSelector((state) => state.temperature.temp)
     const [selectLanguage, setSelectLanguage] = useState("en");
+    const {isDark, setIsDark} = useTheme()
 
     useEffect(() => {
         const getLanguage = localStorage.getItem("language")
@@ -47,6 +49,9 @@ const Data = () => {
                     <option value="en" className={styles.data__option}>en</option>
                     <option value="ua" className={styles.data__option}>ua</option>
                 </select>
+            </div>
+            <div>
+                <button onClick={() => setIsDark(!isDark)}>Change Theme</button>
             </div>
         </div>
     )
