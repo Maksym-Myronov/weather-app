@@ -1,0 +1,10 @@
+@import '../../../styles/variables.scss';
+
+.layout {
+    background: $bg-black;
+
+    &__white {
+        background: $white;
+    }
+
+}
