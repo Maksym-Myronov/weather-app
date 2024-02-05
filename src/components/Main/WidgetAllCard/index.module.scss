@@ -13,6 +13,19 @@
         border-radius: 16px;
         display: inline-block;
         align-items: center;
+        transition: 0.7s;
+    }
+
+    &__white {
+        height: 380px;
+        width: 900px;
+        background: $white;
+        border-radius: 16px;
+        display: inline-block;
+        align-items: center;
+        box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+        border: 1px solid #c2c2c2;
+        transition: 0.7s;
     }
 
     &__day {

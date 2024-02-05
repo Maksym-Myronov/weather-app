@@ -2,11 +2,11 @@ import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import useTheme from '../../../hooks/useTheme'
 //Images
 import heart from '../../../assets/img/Icon.svg'
 //Styles
 import styles from './index.module.scss'
-import useTheme from '../../../hooks/useTheme'
 
 const Data = () => {
     const {t, i18n} = useTranslation()
@@ -35,7 +35,7 @@ const Data = () => {
     }
     
     return (
-        <div className={styles.data}>
+        <div className={isDark ? styles.data : styles.data__white}>
             <div className={styles.data__link}>
                 <Link to="Favorites">{t("favorites")}</Link>
                 <Link to="/">{t("recent")}</Link>
@@ -46,12 +46,12 @@ const Data = () => {
             </div>
             <div>
                 <select onChange={(e) => changeLanguages(e.target.value)} className={styles.data__select} value={selectLanguage}>
-                    <option value="en" className={styles.data__option}>en</option>
-                    <option value="ua" className={styles.data__option}>ua</option>
+                    <option value="en" className={styles.data__options}>en</option>
+                    <option value="ua" className={styles.data__options}>ua</option>
                 </select>
             </div>
             <div>
-                <button onClick={() => setIsDark(!isDark)}>Change Theme</button>
+                <input onClick={() => setIsDark(!isDark)} type="checkbox" className={styles.data__checkbox} />
             </div>
         </div>
     )

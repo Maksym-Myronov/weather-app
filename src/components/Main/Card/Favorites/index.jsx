@@ -5,6 +5,7 @@ import { useImage } from '../../../../hooks/useImage';
 import { useTranslation } from 'react-i18next';
 import { useGetData } from '../../../../hooks/useGetData';
 import { usePagination } from '../../../../hooks/usePagination';
+import useTheme from '../../../../hooks/useTheme';
 import translete from '../../../../translete/index'
 //Images
 import location from '../../../../assets/img/placeholder (1) 1.svg'
@@ -26,6 +27,7 @@ const Favorites = () => {
     const [handlePreviousPage, handleLastPage, handleNextPage, handleFirstPage, currentItems, temp, setCurrentPage, currentPage, totalPages, itemsPerPage, handlePreviousPageFavorites, handleFirstPageFavorites,handleNextPageFavorites, handleLastPageFavorites] = usePagination()
     const storedFavoriteStatus = JSON.parse(localStorage.getItem('favoriteStatus')) || {};
     const [favoriteStatus, setFavoriteStatus] = useState(storedFavoriteStatus);
+    const {isDark} = useTheme()
     const [newMapArray, setNewMapArray] = useState([])
     const totalPage = Math.ceil(newMapArray.length / itemsPerPage);
     
@@ -55,7 +57,7 @@ const Favorites = () => {
 
     return (
         <div className={styles.allCard}>
-            <div className={styles.allCards}>
+            <div className={isDark ? styles.allCards : styles.allCards__recent__black}>
                 <h1 className={styles.allCards__recent}>{t("favorites")}</h1>
             </div>
             <div>
@@ -63,11 +65,11 @@ const Favorites = () => {
                     <>
                         {currentItems.map((item) => (
                             item.isFavorite && (
-                                <div className={styles.local} key={item.id}>
+                                <div className={isDark ? styles.local : styles.local__white} key={item.id}>
                                     {favoriteStatus[item.id] ? (
                                         <>
                                             <div className={styles.local__container}>
-                                                <button onClick={() => handleStarClick(item.id)}>
+                                                <button onClick={() => handleStarClick(item.id)} className={styles.local__button}>
                                                     <img
                                                         src={favoriteStatus[item.id] ? starSecond : starOne}
                                                         alt="star"
@@ -78,7 +80,7 @@ const Favorites = () => {
                                             <div className={styles.local__temperature}>
                                                 <div className={styles.local__day}>
                                                     <p className={styles.local__temp}>{Math.floor(item && item.main && item.main.temp) - 273}<span className={styles.local__span}>°</span></p>
-                                                    <p>{translete.language === 'en' ? currentDayEn : currentDayUa}, {currentDayOfMonth} {translete.language === 'en' ? currentMonthNameEn : currentMonthNameUa}</p>
+                                                    <p className={styles.local__text}>{translete.language === 'en' ? currentDayEn : currentDayUa}, {currentDayOfMonth} {translete.language === 'en' ? currentMonthNameEn : currentMonthNameUa}</p>
                                                     <div className={styles.local__location}>
                                                         <img src={location} alt="location" />
                                                         <h1>

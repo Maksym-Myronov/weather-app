@@ -7,4 +7,16 @@
     background: #313131;
     margin-bottom: 15px;
     width: 100%;
+    transition: 0.7s;
+
+    &__white {
+        @include d-flex(null, space-between, center);
+        padding: 1.5rem 2rem 1.5rem 3rem;
+        background: white;
+        margin-bottom: 15px;
+        width: 100%;
+        box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+        border: 1px solid #c2c2c2;
+        transition: 0.7s;
+    }
 }

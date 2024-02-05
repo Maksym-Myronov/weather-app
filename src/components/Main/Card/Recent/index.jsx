@@ -42,7 +42,7 @@ const Recent = ({handleChangeState, currentItems, isActive, removeFromLocalStora
         <div>
             <div className={isDark ? styles.allCards : styles.allCards__recent__black}>
                 <h1 className={styles.allCards__recent }>{t("recent")}</h1>
-                <button className={styles.allCards__btn} onClick={handleChangeState}>{t("clear")}</button>
+                <button className={isDark ? styles.allCards__btn : styles.allCards__white} onClick={handleChangeState}>{t("clear")}</button>
                 {isActive && 
                     <ModalWindow 
                         text={t("Question")}
@@ -54,16 +54,16 @@ const Recent = ({handleChangeState, currentItems, isActive, removeFromLocalStora
                     />}
             </div>
             {Array.isArray(currentItems) && currentItems.map((item) => (
-                <div className={styles.local} key={item.id}>
+                <div className={isDark ? styles.local : styles.local__white} key={item.id}>
                     <div className={styles.local__container}>
-                        <button onClick={() => handleStarClick(item.id)} ><img src={ favoriteStatus[item.id] ?  starSecond : starOne} alt="star" className={styles.local__star} /></button>
+                        <button onClick={() => handleStarClick(item.id)} className={styles.local__button}><img src={ favoriteStatus[item.id] ?  starSecond : starOne} alt="star" className={styles.local__star} /></button>
                         <button onClick={() => removeFromLocalStorage(item.id)} className={styles.local__btn}>x</button>
                     </div>
                     <div className={styles.local__temperature}>
                         <div className={styles.local__day}>
                             <div>
                                 <p className={styles.local__temp}>{Math.floor(item && item.main && item.main.temp) - 273}<span className={styles.local__span}>°</span></p>
-                                <p>{translete.language === 'en' ? currentDayEn : currentDayUa}, {currentDayOfMonth} {translete.language === 'en' ? currentMonthNameEn : currentMonthNameUa}</p>
+                                <p className={styles.local__text}>{translete.language === 'en' ? currentDayEn : currentDayUa}, {currentDayOfMonth} {translete.language === 'en' ? currentMonthNameEn : currentMonthNameUa}</p>
                             </div>
                             <div className={styles.local__location}>
                                 <img src={location} alt="location" />

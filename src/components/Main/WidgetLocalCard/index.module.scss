@@ -23,6 +23,22 @@
         line-height: 45px;
         margin: 20px;
         margin-left: 60px;
+        transition: 0.7s;
+    }
+
+    &__white {
+        display: inline-block;
+        width: 300px;
+        height: 380px;
+        background: $white;
+        border-radius: 16px;
+        padding: 15px 10px 15px 25px;
+        line-height: 45px;
+        margin: 20px;
+        margin-left: 60px;
+        box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+        border: 1px solid #c2c2c2;
+        transition: 0.7s;
     }
 
     &__info {

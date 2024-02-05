@@ -4,6 +4,7 @@ import { useImage } from '../../../hooks/useImage';
 import { getTemperature, selectTemperatureData } from '../../../reducers/ip/temperatureSlice';
 import { useTranslation } from 'react-i18next';
 import { useGetData } from '../../../hooks/useGetData';
+import  useTheme  from '../../../hooks/useTheme'
 import translete from '../../../translete/index'
 //Images
 import sunRise from '../../../assets/img/sunrise.png'
@@ -17,19 +18,20 @@ import styles from './index.module.scss'
 
 const LocalCard = () => {
     const [data, setData] = useState([]);
-    const {t} = useTranslation()
+    const {t} = useTranslation();
+    const {isDark} = useTheme()
     const [error, setError] = useState(null);
     const [currentTime, setCurrentTime] = useState('');
-    const [celsiusFeelsLike, setCelsiusFeelsLike] = useState(0)
+    const [celsiusFeelsLike, setCelsiusFeelsLike] = useState(0);
     const [celsiusMax, setCelsiusMax] = useState(0);
     const [formattedTime, setFormattedTime] = useState('');
     const [sunset, setSunset] = useState('');
-    const [lat, setLat] = useState(0)
-    const [lon, setLon] = useState(0)
-    const [renderWeatherImage] = useImage()
-    const dispatch = useDispatch()
+    const [lat, setLat] = useState(0);
+    const [lon, setLon] = useState(0);
+    const [renderWeatherImage] = useImage();
+    const dispatch = useDispatch();
     const options = useSelector(selectTemperatureData);
-    const [currentDayEn, currentDayUa, currentDayOfMonth, currentMonthNameEn, currentMonthNameUa] = useGetData()
+    const [currentDayEn, currentDayUa, currentDayOfMonth, currentMonthNameEn, currentMonthNameUa] = useGetData();
 
     useEffect(() => {
         if (options.temp && options.temp.main) {
@@ -96,7 +98,7 @@ const LocalCard = () => {
 
     return (
         <div className={styles.local}>
-            <div className={styles.local__main}>
+            <div className={isDark ? styles.local__main  : styles.local__black}>
                 <div >
                     <div>
                         <p className={styles.local__celsiusMax}>{celsiusMax}&#8451;</p>
@@ -168,7 +170,7 @@ const LocalCard = () => {
                     </div>
                 </div>
             </div>
-            <div className={styles.local__info}>
+            <div className={isDark ? styles.local__info : styles.local__info__white}>
                 <div>
                     <h1 className={styles.local__data}>{data ? data.city : "Loading..."}</h1>
                     <p className={styles.local__time}>{currentTime}</p>

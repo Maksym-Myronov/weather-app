@@ -14,6 +14,20 @@
         color: $black;
         @include d-flex(null, space-between, null);
         padding: 10px 20px 20px 20px;
+        transition: 0.7s;
+    }
+
+    &__black {
+        background: $white;
+        border-radius: 16px;
+        width: 900px;
+        height: 330px;
+        color: $black;
+        @include d-flex(null, space-between, null);
+        padding: 10px 20px 20px 20px;
+        box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+        border: 1px solid #c2c2c2;
+        transition: 0.7s;
     }
 
     &__info {
@@ -23,6 +37,19 @@
         border-radius: 16px;
         @include d-flex(null, center, center);
         text-align: center;
+        transition: 0.7s;
+    }
+
+    &__info__white {
+        width: 300px;
+        height: 330px;
+        background: $white;
+        box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+        border: 1px solid #c2c2c2;
+        border-radius: 16px;
+        @include d-flex(null, center, center);
+        text-align: center;
+        transition: 0.7s;
     }
 
     &__celsiusMax {
