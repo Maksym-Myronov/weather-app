@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchCities } from "../../../reducers/weather/weatherSlice";
 import { getCity } from "../../../reducers/cityCard/cardSlice";
 import { useTranslation } from "react-i18next";
+import useTheme from "../../../hooks/useTheme";
 //Images
 import reactIcon from '../../../assets/img/Integration icons.svg'
 import search from '../../../assets/img/search.svg'
@@ -13,6 +14,7 @@ const Input = () => {
     const dispatch = useDispatch();
     const [term, setTerm] = useState('');
     const [selectedLocation, setSelectedLocation] = useState(null);
+    const {isDark} = useTheme()
 
     const options = useSelector((state) => state.weather.cities);
 
@@ -43,17 +45,17 @@ const Input = () => {
         <div className={styles.form}>
             <div className={styles.form__logo}>
                 <img src={reactIcon} alt="reactIcon" className={styles.form__react} />
-                <h1 className={styles.form__text}>Maksym Weather App</h1>
+                <h1 className={isDark ? styles.form__text : styles.form__white}>Maksym Weather App</h1>
             </div>
             <form className={styles.form__forms} onSubmit={onInputChange}>
-                <div className={styles.form__searchInupt}> 
+                <div className={isDark ? styles.form__searchInupt : styles.form__input__dark}> 
                     <img src={search} alt="search" className={styles.form__search} />
                     <input 
                         type="text" 
                         placeholder={t("placeholder")}
                         value={term}
                         onChange={onInputChange}
-                        className={styles.form__input}
+                        className={styles.form__input }
                     />
                 </div>
                 {term ? 

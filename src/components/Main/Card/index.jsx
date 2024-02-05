@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { removeCity, removeAllCity } from '../../../reducers/cityCard/cardSlice'
 import { useTranslation } from 'react-i18next'
+import { usePagination } from '../../../hooks/usePagination'
+import useTheme from '../../../hooks/useTheme'
 import Recent from './Recent'
 //Images
 import paginationOne from '../../../assets/img/First.svg'
@@ -10,12 +12,12 @@ import paginationThree from '../../../assets/img/Next.svg'
 import paginationFour from '../../../assets/img/Last.svg'
 //Styles
 import styles from './index.module.scss'
-import { usePagination } from '../../../hooks/usePagination'
 
 const Card = () => {
     const [isActive, setIsActive] = useState(false);
     const [handlePreviousPage, handleLastPage, handleNextPage, handleFirstPage, currentItems, temp, setCurrentPage, currentPage, totalPages] = usePagination()
     const {t} = useTranslation()
+    const {isDark} = useTheme()
 
     const handleChangeState = () => {
         setIsActive(!isActive)
@@ -44,9 +46,9 @@ const Card = () => {
                 />
                 {temp.length >= 4 ?
                     <div className={styles.pagination}>
-                        <div className={styles.pagination__container}>
-                            <button className={styles.pagination__btn} onClick={handleFirstPage}><img src={paginationOne} alt="paginationFirst" /></button>
-                            <button className={styles.pagination__btn} onClick={handlePreviousPage}><img src={paginationTwo} alt="paginationTwo" /></button>
+                        <div className={isDark ? styles.pagination__container : styles.pagination__white}>
+                            <button className={isDark ? styles.pagination__btn : styles.pagination__btn__white} onClick={handleFirstPage}><img src={paginationOne} alt="paginationFirst" /></button>
+                            <button className={isDark ? styles.pagination__btn : styles.pagination__btn__white} onClick={handlePreviousPage}><img src={paginationTwo} alt="paginationTwo" /></button>
                             <div className={styles.pagination__block}>
                                 {[...Array(totalPages)].map((_, item) => (
                                     <button
@@ -58,15 +60,15 @@ const Card = () => {
                                     </button>
                                 ))}
                             </div>
-                            <button className={styles.pagination__btn} onClick={handleNextPage}><img src={paginationThree} alt="paginationThree" /></button>
-                            <button className={styles.pagination__btn} onClick={handleLastPage}><img src={paginationFour} alt="paginationFour" /></button>
+                            <button className={isDark ? styles.pagination__btn : styles.pagination__btn__white} onClick={handleNextPage}><img src={paginationThree} alt="paginationThree" /></button>
+                            <button className={isDark ? styles.pagination__btn : styles.pagination__btn__white} onClick={handleLastPage}><img src={paginationFour} alt="paginationFour" /></button>
                         </div>
                     </div>
                 : null}
             </div> 
             : 
             <div className={styles.allCard}>
-                <div className={styles.allCards}>
+                <div className={isDark ? styles.allCards : styles.allCards__recent__black}>
                     <h1 className={styles.allCards__recent}>{t("recent")}</h1>
                 </div>
                 <div className={styles.local__error}>

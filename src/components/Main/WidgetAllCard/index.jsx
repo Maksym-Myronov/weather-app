@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef  } from 'react';
 import { useTranslation } from 'react-i18next';
+import useTheme from '../../../hooks/useTheme';
 import Chart from 'chart.js/auto';
 // Styles
 import styles from './index.module.scss';
@@ -8,6 +9,7 @@ const WidgetAllCard = ({ forecast }) => {
     const [storedForecast, setStoredForecast] = useState(null);
     const [dataTime, setDataTime] = useState(null);
     const { t } = useTranslation();
+    const {isDark} = useTheme()
     const data = new Date();
     const currentYear = data.getFullYear();
     const currentData = data.getDate();
@@ -95,7 +97,7 @@ const WidgetAllCard = ({ forecast }) => {
 
     return (
         <div className={styles.chart}>
-            <div className={styles.chart__widget}>
+            <div className={isDark ? styles.chart__widget : styles.chart__white}>
                 <div className={styles.chart__day}>
                     <h1 className={styles.chart__average}>{t("Temprature")}</h1>
                     <h1>{allDate}</h1>

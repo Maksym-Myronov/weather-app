@@ -2,9 +2,11 @@
 
 .layout {
     background: $bg-black;
+    transition: 0.7s;
 
     &__white {
         background: $white;
+        transition: 0.7s;
     }
 
 }

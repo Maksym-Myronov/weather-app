@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import {selectTemperatureData} from '../../../reducers/ip/temperatureSlice'
 import { useImage } from '../../../hooks/useImage'
+import useTheme from '../../../hooks/useTheme'
 import WidgetAllCard from '../WidgetAllCard'
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -10,11 +11,11 @@ import translete from '../../../translete/index'
 //Styles
 import styles from './index.module.scss'
 
-
 const WidgetLocalCard = () => {
     const {t} = useTranslation()
     const [forecast, setForecast] = useState(null)
     const [renderWeatherImage] = useImage()
+    const {isDark} = useTheme()
     const options = useSelector(selectTemperatureData);
 
     useEffect(() => {
@@ -55,7 +56,7 @@ const WidgetLocalCard = () => {
                 <WidgetAllCard forecast={forecast} />
             </div>
             <div className={styles.widget__local}>
-                <div className={styles.widget__card}>
+                <div className={isDark ? styles.widget__card : styles.widget__white}>
                     {Array.isArray(forecast) &&
                         forecast.map((dayForecast, item) => (
                             <div className={styles.widget__info} key={item}>
