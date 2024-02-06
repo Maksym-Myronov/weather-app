@@ -6,6 +6,7 @@ import rain from '../assets/img/11_heavy_rain_color.svg';
 import drizzle from '../assets/img/09_light_rain_color.svg';
 import heavyRain from '../assets/img/14_thunderstorm_color (1).svg';
 import partlyCloudy from '../assets/img/35_partly_cloudy_daytime_color.svg';
+import fog from '../assets/img/15_fog_color.svg';
 
 export const useImage = () => {
 
@@ -29,6 +30,9 @@ export const useImage = () => {
             break;
         case 'Clouds':
             imageSource = cloud;
+            break;
+        case 'Mist': 
+            imageSource = fog;
             break;
         default:
             imageSource = partlyCloudy; 

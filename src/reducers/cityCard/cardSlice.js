@@ -39,8 +39,14 @@ const cardSlice = createSlice({
             LocalStorage.removeItem('savedOptions')
         },
         updateFavoriteStatus: (state, action) => {
-            state.temp = action.payload;
-            LocalStorage.setItem('savedOptions', state.temp)
+            const updatedTemp = action.payload;
+            state.temp = updatedTemp;
+            LocalStorage.setItem('savedOptions', updatedTemp);
+        },
+        
+        updateSelectCity: (state, action) => {
+            state.temp = [...action.payload];
+            LocalStorage.setItem('selectedCity', state.temp)
         },
     },
     extraReducers: (builder) => {
@@ -65,4 +71,4 @@ const cardSlice = createSlice({
 
 export default cardSlice.reducer;
 export const selectCityData = (state) => state.card;
-export const { removeCity, removeAllCity, updateFavoriteStatus } = cardSlice.actions
+export const { removeCity, removeAllCity, updateFavoriteStatus, updateSelectCity } = cardSlice.actions

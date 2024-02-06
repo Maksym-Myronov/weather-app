@@ -18,18 +18,24 @@ import paginationFour from '../../../../assets/img/Last.svg'
 //Styles
 import styles from '../index.module.scss';
 
+
 const Favorites = () => {
     const options = useSelector((state) => state.card.temp);
-    const {t} = useTranslation()
+    const { t } = useTranslation();
     const dispatch = useDispatch();
-    const [renderWeatherImage] = useImage()
-    const [currentDayEn, currentDayUa, currentDayOfMonth, currentMonthNameEn, currentMonthNameUa] = useGetData()
-    const [handlePreviousPage, handleLastPage, handleNextPage, handleFirstPage, currentItems, temp, setCurrentPage, currentPage, totalPages, itemsPerPage, handlePreviousPageFavorites, handleFirstPageFavorites,handleNextPageFavorites, handleLastPageFavorites] = usePagination()
+    const [renderWeatherImage] = useImage();
+    const [currentDayEn, currentDayUa, currentDayOfMonth, currentMonthNameEn, currentMonthNameUa] = useGetData();
+    const [handlePreviousPage, handleLastPage, handleNextPage, handleFirstPage, currentItems, temp, setCurrentPage, currentPage, totalPages, itemsPerPage, handlePreviousPageFavorites, handleFirstPageFavorites, handleNextPageFavorites, handleLastPageFavorites] = usePagination();
     const storedFavoriteStatus = JSON.parse(localStorage.getItem('favoriteStatus')) || {};
+    const [newMapArray, setNewMapArray] = useState([]);
     const [favoriteStatus, setFavoriteStatus] = useState(storedFavoriteStatus);
-    const {isDark} = useTheme()
-    const [newMapArray, setNewMapArray] = useState([])
-    const totalPage = Math.ceil(newMapArray.length / itemsPerPage);
+    const { isDark } = useTheme();
+    const totalPage = Math.ceil(options.filter(item => item.isFavorite).length / itemsPerPage);
+
+    useEffect(() => {
+        const newArray = options.filter(item => item.isFavorite);
+        setNewMapArray([...newArray]);
+    }, [options]);
     
     const handleStarClick = (id) => {
         const updatedStatus = { ...favoriteStatus, [id]: !favoriteStatus[id] };
@@ -42,18 +48,9 @@ const Favorites = () => {
         }));
 
         dispatch(updateFavoriteStatus(updatedTemp));
-    }
+    };
 
-    useEffect(() => {
-        const newArray = () => {
-            const mapArray = options.map((item) => {
-                return item.isFavorite;
-            });
-            setNewMapArray(mapArray.filter((item) => item === true));
-        };
-
-        newArray();
-    }, [options,]);
+    console.log(favoriteStatus);
 
     return (
         <div className={styles.allCard}>
@@ -61,59 +58,55 @@ const Favorites = () => {
                 <h1 className={styles.allCards__recent}>{t("favorites")}</h1>
             </div>
             <div>
-                {temp.length > 0 ? (
-                    <>
-                        {currentItems.map((item) => (
-                            item.isFavorite && (
-                                <div className={isDark ? styles.local : styles.local__white} key={item.id}>
-                                    {favoriteStatus[item.id] ? (
-                                        <>
-                                            <div className={styles.local__container}>
-                                                <button onClick={() => handleStarClick(item.id)} className={styles.local__button}>
-                                                    <img
-                                                        src={favoriteStatus[item.id] ? starSecond : starOne}
-                                                        alt="star"
-                                                        className={styles.local__star}
-                                                    />
-                                                </button>
-                                            </div>
-                                            <div className={styles.local__temperature}>
-                                                <div className={styles.local__day}>
-                                                    <p className={styles.local__temp}>{Math.floor(item && item.main && item.main.temp) - 273}<span className={styles.local__span}>°</span></p>
-                                                    <p className={styles.local__text}>{translete.language === 'en' ? currentDayEn : currentDayUa}, {currentDayOfMonth} {translete.language === 'en' ? currentMonthNameEn : currentMonthNameUa}</p>
-                                                    <div className={styles.local__location}>
-                                                        <img src={location} alt="location" />
-                                                        <h1>
-                                                            {item && item.name && item.sys
-                                                                ? `${item.name}, ${item.sys.country}`
-                                                                : "Loading..."}
-                                                        </h1>
-                                                    </div>
-                                                </div>
-                                                <div className={styles.local__images}>
-                                                    {renderWeatherImage(
-                                                        item && item.weather && item.weather[0]?.main,
-                                                        { width: "80px", height: "80px" }
-                                                    )}
-                                                </div>
-                                            </div>
-                                        </>
-                                    ) : null}
+            {temp.length > 0 ? (
+                <>
+                    {currentItems.map((item) => (
+                        favoriteStatus && favoriteStatus[item.id] ? (
+                            <div className={isDark ? styles.local : styles.local__white} key={item.id}>
+                                <div className={styles.local__container}>
+                                    <button onClick={() => handleStarClick(item.id)} className={styles.local__button}>
+                                        <img
+                                            src={favoriteStatus[item.id] ? starSecond : starOne}
+                                            alt="star"
+                                            className={styles.local__star}
+                                        />
+                                    </button>
                                 </div>
-                            )
-                        ))}
-                        {options.every(item => !favoriteStatus[item.id] || !item.isFavorite) && (
-                            <div className={styles.local__messages}>
-                                <p>{t("LoadingFavorites")}</p>
+                                <div className={styles.local__temperature}>
+                                    <div className={styles.local__day}>
+                                        <p className={styles.local__temp}>{Math.floor(item && item.main && item.main.temp) - 273}<span className={styles.local__span}>°</span></p>
+                                        <p className={styles.local__text}>{translete.language === 'en' ? currentDayEn : currentDayUa}, {currentDayOfMonth} {translete.language === 'en' ? currentMonthNameEn : currentMonthNameUa}</p>
+                                        <div className={styles.local__location}>
+                                            <img src={location} alt="location" />
+                                            <h1>
+                                                {item && item.name && item.sys && item.sys.country
+                                                    ? `${item.name}, ${item.sys.country}`
+                                                    : "Loading..."}
+                                            </h1>
+                                        </div>
+                                    </div>
+                                    <div className={styles.local__images}>
+                                        {renderWeatherImage(
+                                            item && item.weather && item.weather[0]?.main,
+                                            { width: "80px", height: "80px" }
+                                        )}
+                                    </div>
+                                </div>
                             </div>
-                        )}
-                    </>
+                        ) : null
+                    ))}
+                    {!currentItems.some(item => favoriteStatus && favoriteStatus[item.id]) && (
+                        <div className={styles.local__messages}>
+                            <p>{t("LoadingFavorites")}</p>
+                        </div>
+                    )}
+                </>
                 ) : (
                     <div className={styles.local__messages}>
                         <p>{t("LoadingFavorites")}</p>
                     </div>
                 )}
-                {newMapArray && newMapArray.length >= 4 ?
+                {options.filter(item => item.isFavorite).length >= 4 ?
                     <div className={styles.pagination}>
                         <div className={styles.pagination__container}>
                             <button className={styles.pagination__btn} onClick={handleFirstPageFavorites}><img src={paginationOne} alt="paginationFirst" /></button>
