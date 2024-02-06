@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { selectCityData,  updateFavoriteStatus} from "../../../../reducers/cityCard/cardSlice";
+import { selectCityData,  updateFavoriteStatus, updateSelectCity} from "../../../../reducers/cityCard/cardSlice";
 import { useImage } from "../../../../hooks/useImage";
 import { useGetData } from "../../../../hooks/useGetData";
 import { useTranslation } from "react-i18next";
@@ -16,14 +16,15 @@ import useTheme from "../../../../hooks/useTheme";
 
 const Recent = ({handleChangeState, currentItems, isActive, removeFromLocalStorage, removeAllLocalStorageData}) => {
     const storedFavoriteStatus = JSON.parse(localStorage.getItem('favoriteStatus')) || {};
+    const storedSelectedCity = JSON.parse(localStorage.getItem('selectedCity')) || {}
     const [favoriteStatus, setFavoriteStatus] = useState(storedFavoriteStatus);
+    const [selectCity, setSelectCity] = useState(storedSelectedCity)
     const dispatch = useDispatch();
     const { temp } = useSelector(selectCityData);
     const [renderWeatherImage] = useImage()
     const { t } = useTranslation()
     const { isDark } = useTheme()
     const [currentDayEn, currentDayUa, currentDayOfMonth, currentMonthNameEn, currentMonthNameUa] = useGetData()
-
 
     const handleStarClick = (id) => {
         const updatedStatus = { ...favoriteStatus, [id]: !favoriteStatus[id] };
@@ -36,6 +37,24 @@ const Recent = ({handleChangeState, currentItems, isActive, removeFromLocalStora
         }));
 
         dispatch(updateFavoriteStatus(updatedTemp));
+    }
+
+    const handleCityChange = (id) => {
+        const updatedStatus = {};
+        
+        temp.forEach(item => {
+            updatedStatus[item.id] = item.id === id
+        })
+
+        setSelectCity(updatedStatus);
+        localStorage.setItem('selectedCity', JSON.stringify(updatedStatus));
+
+        const updatedTemp = temp.map(item => ({
+            ...item,
+            updateSelectCity: updatedStatus[item.id]
+        }));
+
+        dispatch(updateSelectCity(updatedTemp));
     }
 
     return (
@@ -59,7 +78,7 @@ const Recent = ({handleChangeState, currentItems, isActive, removeFromLocalStora
                         <button onClick={() => handleStarClick(item.id)} className={styles.local__button}><img src={ favoriteStatus[item.id] ?  starSecond : starOne} alt="star" className={styles.local__star} /></button>
                         <button onClick={() => removeFromLocalStorage(item.id)} className={styles.local__btn}>x</button>
                     </div>
-                    <div className={styles.local__temperature}>
+                    <div className={styles.local__temperature} onClick={() => handleCityChange(item.id)}>
                         <div className={styles.local__day}>
                             <div>
                                 <p className={styles.local__temp}>{Math.floor(item && item.main && item.main.temp) - 273}<span className={styles.local__span}>°</span></p>
