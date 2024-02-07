@@ -43,7 +43,6 @@ const cardSlice = createSlice({
             state.temp = updatedTemp;
             LocalStorage.setItem('savedOptions', updatedTemp);
         },
-        
         updateSelectCity: (state, action) => {
             state.temp = [...action.payload];
             LocalStorage.setItem('selectedCity', state.temp)
