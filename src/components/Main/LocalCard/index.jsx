@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useImage } from '../../../hooks/useImage';
 import { getTemperature, selectTemperatureData } from '../../../reducers/ip/temperatureSlice';
+import { getLocalCity } from '../../../reducers/cardWeather/cardWeatherSlice';
 import { selectCityData } from '../../../reducers/cityCard/cardSlice';
 import { useTranslation } from 'react-i18next';
 import { useGetData } from '../../../hooks/useGetData';
@@ -48,15 +49,9 @@ const LocalCard = () => {
     }, [temp]);
     
     const cityName = temp && temp.some(item => item.updateSelectCity);
-    const updateCHanges = cityName ? temp.find(item => item.updateSelectCity).name : data.city;
-    const changeCelsiuos = cityName ? temp.find(item => item.updateSelectCity).main && temp.find(item => item.updateSelectCity).main.temp ? Math.floor(temp.find(item => item.updateSelectCity).main.temp - 273) : null : celsiusMax;
-    const changeFeelsLike = cityName ? temp.find(item => item.updateSelectCity).main && temp.find(item => item.updateSelectCity).main.feels_like ? Math.floor(temp.find(item => item.updateSelectCity).main.feels_like -273) : null : celsiusFeelsLike;
     const sunriseValues = cityName ? temp.find(item => item.updateSelectCity).sys ? temp.find(item => item.updateSelectCity).sys.sunrise : null : null
     const sunsetValues = cityName ? temp.find(item => item.updateSelectCity).sys ? temp.find(item => item.updateSelectCity).sys.sunset : null : null
     const timeZoneTime = cityName ? temp.find(item => item.updateSelectCity).timezone ? temp.find(item => item.updateSelectCity).timezone : null : null
-    const humidiatly = cityName ? temp.find(item => item.updateSelectCity).main ? temp.find(item => item.updateSelectCity).main.humidity : null : null
-    const mainPressure = cityName ? temp.find(item => item.updateSelectCity).main ? temp.find(item => item.updateSelectCity).main.pressure : null : null
-    const mainWindSpeed = cityName ? temp.find(item => item.updateSelectCity).wind ? Math.ceil(temp.find(item => item.updateSelectCity).wind.speed).toString() : null : null
     const latCity = cityName ? temp.find(item => item.updateSelectCity).coord ? temp.find(item => item.updateSelectCity).coord.lat : null : null
     const lonCity = cityName ? temp.find(item => item.updateSelectCity).coord ? temp.find(item => item.updateSelectCity).coord.lon : null : null
     const timezoneOffset = timeZoneTime; 
@@ -70,11 +65,10 @@ const LocalCard = () => {
     const sunsetHours = sunsetDate.getUTCHours();
     const sunsetMinutes = sunsetDate.getUTCMinutes();
     const formattedSunsetTime = `${sunsetHours < 10 ? '0' : ''}${sunsetHours}:${sunsetMinutes < 10 ? '0' : ''}${sunsetMinutes}`;
-    const descriptionWeather = cityName ? temp.find(item => item.updateSelectCity).weather ? temp.find(item => item.updateSelectCity).weather[0]?.main : null : null 
 
     useEffect(() => {
         if (options.temp && options.temp.main) {
-            const tempMaxCelsius = Math.floor(Number(options.temp.main.temp_max) - 273.15);
+            const tempMaxCelsius = Math.floor(Number(options.temp.main.temp) - 273.15);
             const feelsLike = Math.floor(Number(options.temp.main.feels_like) - 273.15);
             setCelsiusMax(tempMaxCelsius);
             setCelsiusFeelsLike(feelsLike);
@@ -101,6 +95,7 @@ const LocalCard = () => {
                     setLat(newData.lat);
                     setLon(newData.lon);
                     dispatch(getTemperature({ lat: latCity ? latCity : newData.lat, lon: lonCity ? lonCity : newData.lon }));
+                    dispatch(getLocalCity({ lat: newData.lat, lon: newData.lon }))
                 } else if (response.status === 429) {
                     setError('Too many requests. Please try again later.');
                 } else {
@@ -132,7 +127,6 @@ const LocalCard = () => {
         return () => clearInterval(intervalId);
     }, [currentTime]); 
 
-
     const windSpeed = Math.ceil(options.temp && options.temp.wind && options.temp.wind.speed * 3.60).toString()
 
     return (
@@ -140,8 +134,8 @@ const LocalCard = () => {
             <div className={isDark ? styles.local__main  : styles.local__black}>
                 <div >
                     <div>
-                        <p className={styles.local__celsiusMax}>{changeCelsiuos}&#8451;</p>
-                        <p className={styles.local__feels}>{t("Feels like")}: <span className={styles.local__feelsLike}>{changeFeelsLike}&#8451;</span></p>
+                        <p className={styles.local__celsiusMax}>{celsiusMax}&#8451;</p>
+                        <p className={styles.local__feels}>{t("Feels like")}: <span className={styles.local__feelsLike}>{celsiusFeelsLike}&#8451;</span></p>
                     </div>
                     <div className={styles.local__sunriseCard}>
                         <div>
@@ -163,8 +157,8 @@ const LocalCard = () => {
                     </div>
                 </div>
                 <div className={styles.local__images}>
-                    {renderWeatherImage(descriptionWeather ? descriptionWeather : options.temp && options.temp.weather && options.temp.weather[0]?.main, {width: "200px", height: "200px"})}
-                    <p>{t(descriptionWeather ? descriptionWeather : options.temp && options.temp.weather && options.temp.weather[0]?.main)}</p>
+                    {renderWeatherImage(options.temp && options.temp.weather && options.temp.weather[0]?.main, {width: "200px", height: "200px"})}
+                    <p>{t(options.temp && options.temp.weather && options.temp.weather[0]?.main)}</p>
                 </div>
                 <div>
                     <div className={styles.local__information}>
@@ -173,7 +167,7 @@ const LocalCard = () => {
                                 <img src={humidity} alt="humidiatly" className={styles.local__imageshumidiatly} />
                             </div>
                             <div>
-                                <p>{humidiatly ? humidiatly : options.temp && options.temp.main && options.temp.main.humidity}%</p>
+                                <p>{options.temp && options.temp.main && options.temp.main.humidity}%</p>
                                 <p>{t("Humidity")}</p>
                             </div>
                         </div>
@@ -182,7 +176,7 @@ const LocalCard = () => {
                                 <img src={wind} alt="wind" className={styles.local__imageWind} />
                             </div>
                             <div>
-                                <p>{mainWindSpeed ? mainWindSpeed : windSpeed}</p>
+                                <p>{windSpeed}</p>
                                 <p>{t("Wind Speed")}</p>
                             </div>
                         </div>
@@ -193,7 +187,7 @@ const LocalCard = () => {
                                 <img src={pressure} alt="pressure" className={styles.local__imagePressure} />
                             </div>
                             <div>
-                                <p>{mainPressure ? mainPressure : options.temp && options.temp.main && options.temp.main.pressure}mbar</p>
+                                <p>{options.temp && options.temp.main && options.temp.main.pressure}mbar</p>
                                 <p>{t("Pressure")}</p>
                             </div>
                         </div>
@@ -211,7 +205,7 @@ const LocalCard = () => {
             </div>
             <div className={isDark ? styles.local__info : styles.local__info__white}>
                 <div>
-                    <h1 className={styles.local__data}>{updateCHanges ? updateCHanges : "Loading"}</h1>
+                    <h1 className={styles.local__data}>{options.temp && options.temp.name}</h1>
                     <p className={styles.local__time}>{currentTime}</p>
                     <p>{translete.language === 'en' ? currentDayEn : currentDayUa}, {currentDayOfMonth} {translete.language === 'en' ? currentMonthNameEn : currentMonthNameUa}</p>
                 </div>
