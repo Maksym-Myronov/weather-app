@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { useGetData } from '../../../hooks/useGetData';
 import useTheme  from '../../../hooks/useTheme'
 import translete from '../../../translete/index'
+import moment from 'moment/moment';
 //Images
 import sunRise from '../../../assets/img/sunrise.png'
 import sunSet from '../../../assets/img/sunset.png'
@@ -54,7 +55,8 @@ const LocalCard = () => {
     const timeZoneTime = cityName ? temp.find(item => item.updateSelectCity).timezone ? temp.find(item => item.updateSelectCity).timezone : null : null
     const latCity = cityName ? temp.find(item => item.updateSelectCity).coord ? temp.find(item => item.updateSelectCity).coord.lat : null : null
     const lonCity = cityName ? temp.find(item => item.updateSelectCity).coord ? temp.find(item => item.updateSelectCity).coord.lon : null : null
-    const timezoneOffset = timeZoneTime; 
+    const timezoneOffset = timeZoneTime;
+    const localTimeData = options.temp && options.temp.timezone 
     const adjustedSunriseTimestamp = sunriseValues + timezoneOffset;
     const sunriseDate = new Date(adjustedSunriseTimestamp * 1000);
     const hours = sunriseDate.getUTCHours();
@@ -65,6 +67,8 @@ const LocalCard = () => {
     const sunsetHours = sunsetDate.getUTCHours();
     const sunsetMinutes = sunsetDate.getUTCMinutes();
     const formattedSunsetTime = `${sunsetHours < 10 ? '0' : ''}${sunsetHours}:${sunsetMinutes < 10 ? '0' : ''}${sunsetMinutes}`;
+    const timezoneInMinutes = localTimeData / 60;
+    const currTime = moment().utcOffset(timezoneInMinutes).format("HH:mm");
 
     useEffect(() => {
         if (options.temp && options.temp.main) {
@@ -206,7 +210,7 @@ const LocalCard = () => {
             <div className={isDark ? styles.local__info : styles.local__info__white}>
                 <div>
                     <h1 className={styles.local__data}>{options.temp && options.temp.name}</h1>
-                    <p className={styles.local__time}>{currentTime}</p>
+                    <p className={styles.local__time}>{currTime}</p>
                     <p>{translete.language === 'en' ? currentDayEn : currentDayUa}, {currentDayOfMonth} {translete.language === 'en' ? currentMonthNameEn : currentMonthNameUa}</p>
                 </div>
             </div>
