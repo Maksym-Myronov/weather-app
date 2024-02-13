@@ -26,8 +26,14 @@ const Card = () => {
     const dispatch = useDispatch()
 
     const removeFromLocalStorage = (idRemove) => {
-        dispatch(removeCity(idRemove))
-    }
+        const itemsOnCurrentPage = currentItems.length;
+        
+        dispatch(removeCity(idRemove));
+
+        if (itemsOnCurrentPage === 1 && currentPage > 1) {
+            setCurrentPage(currentPage - 1);
+        }
+    };
 
     const removeAllLocalStorageData = () => {
         dispatch(removeAllCity(temp.id))

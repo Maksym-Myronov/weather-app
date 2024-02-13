@@ -96,7 +96,6 @@ const Recent = ({handleChangeState, currentItems, isActive, removeFromLocalStora
                 </div>
             ))}
         </div> 
-        
     )
 }
 
