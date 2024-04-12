@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import LocalStorage from '../../core/helper/index'
+import LocalStorage from '../core/helper/index'
 
 const initialSavedOptions = LocalStorage.getItem('savedOptions') || [];
 

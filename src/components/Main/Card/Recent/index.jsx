@@ -1,24 +1,22 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { selectCityData,  updateFavoriteStatus, updateSelectCity} from "../../../../reducers/cityCard/cardSlice";
+import { selectCityData,  updateFavoriteStatus, updateSelectCity} from "../../../../store/cardSlice";
 import { useImage } from "../../../../hooks/useImage";
 import { useGetData } from "../../../../hooks/useGetData";
 import { useTranslation } from "react-i18next";
 import ModalWindow from "../../../../shared/components/ModalWindow"
 import translete from '../../../../translete/index'
+import useTheme from "../../../../hooks/useTheme";
 //Images
 import location from '../../../../assets/img/placeholder (1) 1.svg'
 import starOne from '../../../../assets/img/star.png'
 import starSecond from '../../../../assets/img/star (1).png'
 //Styles
 import styles from '../index.module.scss'
-import useTheme from "../../../../hooks/useTheme";
 
 const Recent = ({handleChangeState, currentItems, isActive, removeFromLocalStorage, removeAllLocalStorageData}) => {
     const storedFavoriteStatus = JSON.parse(localStorage.getItem('favoriteStatus')) || {};
-    const storedSelectedCity = JSON.parse(localStorage.getItem('selectedCity')) || {}
     const [favoriteStatus, setFavoriteStatus] = useState(storedFavoriteStatus);
-    const [selectCity, setSelectCity] = useState(storedSelectedCity)
     const dispatch = useDispatch();
     const { temp } = useSelector(selectCityData);
     const [renderWeatherImage] = useImage()
@@ -39,6 +37,7 @@ const Recent = ({handleChangeState, currentItems, isActive, removeFromLocalStora
         dispatch(updateFavoriteStatus(updatedTemp));
     }
 
+
     const handleCityChange = (id) => {
         const updatedStatus = {};
         
@@ -46,7 +45,6 @@ const Recent = ({handleChangeState, currentItems, isActive, removeFromLocalStora
             updatedStatus[item.id] = item.id === id
         })
 
-        setSelectCity(updatedStatus);
         localStorage.setItem('selectedCity', JSON.stringify(updatedStatus));
 
         const updatedTemp = temp.map(item => ({

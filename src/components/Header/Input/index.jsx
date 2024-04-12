@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchCities } from "../../../reducers/weather/weatherSlice";
-import { getCity } from "../../../reducers/cityCard/cardSlice";
+import { fetchCities } from "../../../store/weatherSlice";
+import { getCity } from "../../../store/cardSlice";
 import { useTranslation } from "react-i18next";
 import useTheme from "../../../hooks/useTheme";
 //Images

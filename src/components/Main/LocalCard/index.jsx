@@ -1,9 +1,9 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useImage } from '../../../hooks/useImage';
-import { getTemperature, selectTemperatureData } from '../../../reducers/ip/temperatureSlice';
-import { getLocalCity } from '../../../reducers/cardWeather/cardWeatherSlice';
-import { selectCityData } from '../../../reducers/cityCard/cardSlice';
+import { getTemperature, selectTemperatureData } from '../../../store/temperatureSlice';
+import { getLocalCity } from '../../../store/cardWeatherSlice';
+import { selectCityData } from '../../../store/cardSlice';
 import { useTranslation } from 'react-i18next';
 import { useGetData } from '../../../hooks/useGetData';
 import useTheme  from '../../../hooks/useTheme'
