@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { selectCityData } from "../reducers/cityCard/cardSlice";
+import { selectCityData } from "../store/cardSlice";
 
 export const usePagination = () => {
     const [currentPage, setCurrentPage] = useState(1);

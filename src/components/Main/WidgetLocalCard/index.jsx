@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
-import {selectTemperatureData} from '../../../reducers/ip/temperatureSlice'
+import { selectTemperatureData } from '../../../store/temperatureSlice'
 import { useImage } from '../../../hooks/useImage'
 import useTheme from '../../../hooks/useTheme'
 import WidgetAllCard from '../WidgetAllCard'

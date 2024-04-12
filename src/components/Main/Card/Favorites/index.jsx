@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { updateFavoriteStatus } from '../../../../reducers/cityCard/cardSlice';
+import { updateFavoriteStatus } from '../../../../store/cardSlice';
 import { useImage } from '../../../../hooks/useImage';
 import { useTranslation } from 'react-i18next';
 import { useGetData } from '../../../../hooks/useGetData';
@@ -49,8 +49,6 @@ const Favorites = () => {
 
         dispatch(updateFavoriteStatus(updatedTemp));
     };
-
-    console.log(favoriteStatus);
 
     return (
         <div className={styles.allCard}>

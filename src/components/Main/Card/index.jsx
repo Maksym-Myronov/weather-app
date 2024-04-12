@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { removeCity, removeAllCity } from '../../../reducers/cityCard/cardSlice'
+import { removeCity, removeAllCity } from '../../../store/cardSlice'
 import { useTranslation } from 'react-i18next'
 import { usePagination } from '../../../hooks/usePagination'
 import useTheme from '../../../hooks/useTheme'
@@ -27,7 +27,7 @@ const Card = () => {
 
     const removeFromLocalStorage = (idRemove) => {
         const itemsOnCurrentPage = currentItems.length;
-        
+
         dispatch(removeCity(idRemove));
 
         if (itemsOnCurrentPage === 1 && currentPage > 1) {
@@ -41,11 +41,11 @@ const Card = () => {
     }
 
     return (
-        (temp.length ? 
+        (temp.length ?
             <div className={styles.allCard}>
-                <Recent 
+                <Recent
                     currentItems={currentItems}
-                    isActive={isActive} 
+                    isActive={isActive}
                     handleChangeState={handleChangeState}
                     removeAllLocalStorageData={removeAllLocalStorageData}
                     removeFromLocalStorage={removeFromLocalStorage}
@@ -71,8 +71,8 @@ const Card = () => {
                         </div>
                     </div>
                 : null}
-            </div> 
-            : 
+            </div>
+            :
             <div className={styles.allCard}>
                 <div className={isDark ? styles.allCards : styles.allCards__recent__black}>
                     <h1 className={styles.allCards__recent}>{t("recent")}</h1>
@@ -80,7 +80,7 @@ const Card = () => {
                 <div className={styles.local__error}>
                     <p>{t("Loading")}</p>
                 </div>
-            </div> 
+            </div>
         )
     );
 }

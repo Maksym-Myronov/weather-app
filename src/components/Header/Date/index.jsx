@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { getTemperature } from '../../../reducers/ip/temperatureSlice'
+import { getTemperature } from '../../../store/temperatureSlice'
 import useTheme from '../../../hooks/useTheme'
 //Images
 import heart from '../../../assets/img/Icon.svg'
